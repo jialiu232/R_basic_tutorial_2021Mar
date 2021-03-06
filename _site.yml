@@ -1,0 +1,9 @@
+name: "R Basic"
+output_dir: "."
+navbar:
+  title: "R Basic"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About Me"
+      href: about.html
