@@ -11,12 +11,12 @@
 
 
 
-<title>About Me</title>
+<title>Tutorial</title>
 
 <script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -29,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -57,6 +60,7 @@ if (window.hljs) {
 
 
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 
 
@@ -218,6 +222,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -225,6 +292,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -259,15 +336,114 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">About Me</h1>
+<h1 class="title toc-ignore">Tutorial</h1>
 
 </div>
 
 
-<p>Why I am awesome.</p>
+<hr />
+<p>I can maybe introduce something about this workshop here</p>
+<hr />
+<div id="foundamental-r" class="section level2">
+<h2>1. Foundamental R</h2>
+<p>blablabla</p>
+<p><br></p>
+<div id="math" class="section level3">
+<h3>math</h3>
+<p>Note that on this page:</p>
+<ol style="list-style-type: decimal">
+<li>there is a Table of Contents (TOC) there on the left, and</li>
+<li>it is floating (i.e. it follows you as you scroll down and expands/collapses nicely as you click)</li>
+<li>This is all done in the front matter:<br />
+</li>
+</ol>
+<pre><code>    output:  
+      html_document:  
+        toc: true  
+        toc_float: true  </code></pre>
+<!---also note that my numbering in this list renders nicely--->
+<p><br></p>
+</div>
+<div id="assign-values" class="section level3">
+<h3>assign values?</h3>
+<p>We can change the website’s theme in <code>_site.yml</code>. Explore options here: <a href="http://rmarkdown.rstudio.com/html_document_format.html#appearance_and_style" class="uri">http://rmarkdown.rstudio.com/html_document_format.html#appearance_and_style</a>:</p>
+<blockquote>
+<p>Valid themes include “default”, “cerulean”, “journal”, “flatly”, “readable”, “spacelab”, “united”, “cosmo”, “lumen”, “paper”, “sandstone”, “simplex”, and “yeti”.</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="simple-styling" class="section level2">
+<h2>Simple styling</h2>
+<div id="images" class="section level3">
+<h3>images</h3>
+<p>By default, images are displayed left-aligned.</p>
+<p><strong>Resize</strong> an image using HTML tags (side note: check out <a href="https://www.rstudio.com/resources/cheatsheets/">RStudio’s R Markdown Cheatsheet</a>):</p>
+<p>Here’s a big image:<br />
+<code>&lt;img src="images/Rmd_cheatsheet.png" width="350px"&gt;</code><br />
+<img src="images/Rmd_cheatsheet.png" width="350px"></p>
+<p>And a small image:<br />
+<code>&lt;img src="images/Rmd_cheatsheet.png" width="150px"&gt;</code><br />
+<img src="images/Rmd_cheatsheet.png" width="150px"></p>
+<p><strong>Align</strong> an image using HTML tags:</p>
+<p>Small image centered:<br />
+<code>&lt;center&gt;&lt;img src="images/Rmd_cheatsheet.png" width="150px"&gt;&lt;/center&gt;</code></p>
+<center>
+<img src="images/Rmd_cheatsheet.png" width="150px">
+</center>
+<p>Small image right-aligned:<br />
+<code>&lt;div align="right"&gt;&lt;img src="images/Rmd_cheatsheet.png" width="150px"&gt;&lt;/div&gt;</code></p>
+<div align="right">
+<img src="images/Rmd_cheatsheet.png" width="150px">
+</div>
+<p><br></p>
+</div>
+<div id="columns" class="section level3">
+<h3>columns</h3>
+<!---From http://stackoverflow.com/questions/31753897/2-column-section-in-r-markdown:
+Put in your css file or directly in rmarkdown--->
+<style>
+  .col2 {
+    columns: 2 200px;         /* number of columns and width in pixels*/
+    -webkit-columns: 2 200px; /* chrome, safari */
+    -moz-columns: 2 200px;    /* firefox */
+  }
+</style>
+<div class="col2">
+<p><strong>Column 1</strong></p>
+<ul>
+<li>note <code>&lt;div class="col2"&gt;</code> and <code>&lt;/div&gt;</code></li>
+<li>what beautiful bullet points <br> <br></li>
+</ul>
+<p><strong>Column 2</strong></p>
+<ul>
+<li>I have 3 bullet points here</li>
+<li>which means to align with the left column</li>
+<li>I added a <code>&lt;br&gt;</code> there</li>
+</ul>
+</div>
+<p><br></p>
+<center>
+<p><code>&lt;center&gt;**Here the text is centered. Here are good resources:**&lt;/center&gt;</code><br />
+<strong>Here the text is centered. Here are good resources:</strong></p>
+• <a href="http://www.w3schools.com/tags/">w3schools.com - HTML references</a> • <a href="http://www.w3schools.com/css/">w3schools.com - CSS tutorial</a> •
+</center>
+<p><br></p>
+</div>
+<div id="colored-text" class="section level3">
+<h3>colored text</h3>
+<p><code>&lt;font size="3" color="red"&gt;Text here!&lt;/font&gt;</code></p>
+<p><font size="3" color="red">This is red text size 3!</font><br />
+<font size="2" color="blue">This is blue text size 2!</font><br />
+<font face="verdana" color="green">This is green text in verdana!</font></p>
+<hr />
+</div>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -300,6 +476,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

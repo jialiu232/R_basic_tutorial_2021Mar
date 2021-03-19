@@ -6,3 +6,4 @@ setwd("/Users/liujia/Documents/R_projects/R_basic_tutorial_2021Mar")
 
 #render your sweet site. 
 rmarkdown::render_site()
+

@@ -1,0 +1,32 @@
+---
+title: "More resources"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+----
+
+There are tons of great learning materials about R that are free online. It doesn't really matter which one you choose, but if you persist in it. Also remember, "Google" is the best teacher!
+
+For future adventures!
+
+----
+
+## R fundamentals
+
+https://www.tutorialspoint.com/r/r_operators.htm    (a website of Learn R programming)
+
+Book: Learning R
+
+A youtuber
+
+
+
+## R data analysis and visualization
+
+https://r4ds.had.co.nz/transform.html   (R for data science)
+
+David Robinson
+

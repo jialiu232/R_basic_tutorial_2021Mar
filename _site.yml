@@ -5,5 +5,11 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "About Me"
-      href: about.html
+    - text: "Tutorial"
+      href: tutorial.html
+    - text: "More Resources"
+      href: more_resources.html
+output:
+  html_document:
+    theme: sandstone
+    css: style.css
