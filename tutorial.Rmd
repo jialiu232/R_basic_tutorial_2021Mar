@@ -77,7 +77,7 @@ c(2, 4, 3) / 2 + c(1, 2, 3) * 3
 ```
 
 <style>
-div.Tip1, div.Tip2, div.Tip3 {
+div.Tip1, div.Tip2, div.Tip3, div.Tip4 {
   padding: 1em;
   margin: 1em 0;
   padding-left: 100px;
@@ -415,17 +415,17 @@ R's basic subsetting operators are powerful. It allows you to adopt different me
 
 In the last Exercise, you applied one function `sort` to a dataframe. Sometimes, you may need to use multiple functions, say 10, to a dataframe before you get the final set that you like. Through this long process, you either store the output of each function to a variable and use it as an input of the next function, or use some function commands with data as the argument of the next function. Either way, it can be messy and easy to lose control of.    
 
-In `dplyr` package, there is a pipe operator `%>%`, which allows you to transfer the data or output of the previous function to be as the argument of the next function:
+In `dplyr` package, there is a pipe operator `%>%`, which allows you to transfer the data or output of the previous function to be as the default input data of the next function:
 
 ```{r, eval=FALSE}
 df_name %>% 
-  function1(other arguments)  %>% 
-  function2(other arguments) %>% 
-  function3(other arguments)
+  function1( ... arguments)  %>% 
+  function2( ... arguments) %>% 
+  function3( ... arguments)
 ```
 
 
-We will learn about how to use some basic functions in `dplyr` from now on.
+There are some very useful `dplyr` functions that can help us work with data. We will learn about some of them today.
 
 ----
 
@@ -479,7 +479,7 @@ ghg %>%
   filter(Year > 2000)
 ```
 
-In many situations, we may need to filter out rows with multiple conditions. For example, I can filter all the rows with `Year > 2000` and Pollutant == "CO2" by combining these two conditions with `&`:
+In many situations, we may need to filter out rows with multiple conditions. For example, I can filter all the rows with `Year > 2000` and `Pollutant == "CO2"` by combining these two conditions with `&`:
 ```{r, eval=FALSE}
 ghg %>% 
   select(Country, Pollutant, Year, Value) %>% 
@@ -508,35 +508,46 @@ N2O_ghg <- ghg %>%
 
 <br>
 
-### <font color="indigo">Summarize</font> 
+### <font color="indigo">Summarize and Divide data</font> 
+
+You know how to do some manupulation to your data know. Some basic maths information may help you learn more about your data. `summarise()` function summarizes some maths such as sum, average, standard deviation, maximum, minimum, and counts of the columns you defined. To apply `summarise`, you can add your new column name, and let it equals to the math function with the variable. More than one summary functions are possible. 
 
 ```{r}
 N2O_ghg %>% 
-  count(Year, sort = TRUE)
-
-N2O_ghg %>% 
-  summarise(n=n(), average = mean(Value), maximum = max(Value))
-
-N2O_ghg %>% 
-  filter(Value > 202323)
-
-N2O_ghg %>% 
-  group_by(Country) %>% 
-  summarise(average = mean(Value), maximum = max(Value))
+  summarise(n=n(), average = mean(Value), std = sd(Value), maximum = max(Value))
 ```
 
+That's a big standard deviation. It kinda makes sense since it was calculated through all the countries. A lot of times, we want to summarize the information not through all the data but by a group, say `Country` in this case. `group_by` function will divide the data with the columns/variables that you specified, and the latter functions can be applied to each divided data section. 
 
-#### <font color="indigo">Exercise</font>
-asdf
+```{r}
+N2O_ghg %>% 
+  group_by(Country) %>% 
+  summarise(average = mean(Value), std = sd(Value), maximum = max(Value)) 
+```
 
+We just got some summaries of each European countries "N2O" gas emission throughout years. `arrange` function can be used to order a dataset based on values in one or multiple columns you defined. For example, I may want to order the dataset above based on firstly the "average", and then "std" columns: 
+
+```{r}
+N2O_ghg %>% 
+  group_by(Country) %>% 
+  summarise(average = mean(Value), std = sd(Value), maximum = max(Value)) %>% 
+  arrange(desc(average), std)
+```
+
+`arrange` will sort on ascending order in default. `arrange(desc(column_name))` will make it sort in descending order of the given column. 
 
 <br>
 
-### <font color="violet">mutate?</font> 
-asdf
+<div class = "Tip4">
 
-#### <font color="violet">Exercise</font>
-asdf
+**NOTE**
+
+We just went through a data wrangling process with some functions in `dplyr`. It also has many other useful functions such as `mutate()`, `relocate()``, `slice()`, and so on.
+
+There are many good online resources about how to apply these functions specifically based on your needs. This is a [good](https://r4ds.had.co.nz/transform.html) one I found.
+
+</div>
+
 
 <br>
 

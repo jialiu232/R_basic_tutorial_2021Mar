@@ -463,7 +463,7 @@ a raised to the bth power
 <pre class="r"><code>c(2, 4, 3) / 2 + c(1, 2, 3) * 3</code></pre>
 <pre><code>## [1]  4.0  8.0 10.5</code></pre>
 <style>
-div.Tip1, div.Tip2, div.Tip3 {
+div.Tip1, div.Tip2, div.Tip3, div.Tip4 {
   padding: 1em;
   margin: 1em 0;
   padding-left: 100px;
@@ -934,12 +934,12 @@ head(ghg[ , 4:8])</code></pre>
 <h2 number="2.2"><span class="header-section-number">2.2</span> <font color="darkgoldenrod">Data wrangling with <code>tidyverse</code></font></h2>
 <p><br></p>
 <p>In the last Exercise, you applied one function <code>sort</code> to a dataframe. Sometimes, you may need to use multiple functions, say 10, to a dataframe before you get the final set that you like. Through this long process, you either store the output of each function to a variable and use it as an input of the next function, or use some function commands with data as the argument of the next function. Either way, it can be messy and easy to lose control of.</p>
-<p>In <code>dplyr</code> package, there is a pipe operator <code>%&gt;%</code>, which allows you to transfer the data or output of the previous function to be as the argument of the next function:</p>
+<p>In <code>dplyr</code> package, there is a pipe operator <code>%&gt;%</code>, which allows you to transfer the data or output of the previous function to be as the default input data of the next function:</p>
 <pre class="r"><code>df_name %&gt;% 
-  function1(other arguments)  %&gt;% 
-  function2(other arguments) %&gt;% 
-  function3(other arguments)</code></pre>
-<p>We will learn about how to use some basic functions in <code>dplyr</code> from now on.</p>
+  function1( ... arguments)  %&gt;% 
+  function2( ... arguments) %&gt;% 
+  function3( ... arguments)</code></pre>
+<p>There are some very useful <code>dplyr</code> functions that can help us work with data. We will learn about some of them today.</p>
 <hr />
 <div id="select-columns-of-interest" class="section level3" number="2.2.1">
 <h3 number="2.2.1"><span class="header-section-number">2.2.1</span> <font color="green"><strong>Select</strong> columns of interest</font></h3>
@@ -976,7 +976,7 @@ ghg %&gt;%
 <pre class="r"><code>ghg %&gt;% 
   select(Country, Pollutant, Year, Value) %&gt;% 
   filter(Year &gt; 2000)</code></pre>
-<p>In many situations, we may need to filter out rows with multiple conditions. For example, I can filter all the rows with <code>Year &gt; 2000</code> and Pollutant == “CO2” by combining these two conditions with <code>&amp;</code>:</p>
+<p>In many situations, we may need to filter out rows with multiple conditions. For example, I can filter all the rows with <code>Year &gt; 2000</code> and <code>Pollutant == "CO2"</code> by combining these two conditions with <code>&amp;</code>:</p>
 <pre class="r"><code>ghg %&gt;% 
   select(Country, Pollutant, Year, Value) %&gt;% 
   filter(Year &gt; 2000 &amp; Pollutant == &quot;CO2&quot;)</code></pre>
@@ -998,67 +998,58 @@ ghg %&gt;%
 <p><br></p>
 </div>
 </div>
-<div id="summarize" class="section level3" number="2.2.3">
-<h3 number="2.2.3"><span class="header-section-number">2.2.3</span> <font color="indigo">Summarize</font></h3>
+<div id="summarize-and-divide-data" class="section level3" number="2.2.3">
+<h3 number="2.2.3"><span class="header-section-number">2.2.3</span> <font color="indigo">Summarize and Divide data</font></h3>
+<p>You know how to do some manupulation to your data know. Some basic maths information may help you learn more about your data. <code>summarise()</code> function summarizes some maths such as sum, average, standard deviation, maximum, minimum, and counts of the columns you defined. To apply <code>summarise</code>, you can add your new column name, and let it equals to the math function with the variable. More than one summary functions are possible.</p>
 <pre class="r"><code>N2O_ghg %&gt;% 
-  count(Year, sort = TRUE)</code></pre>
-<pre><code>##    Year  n
-## 1  1990 32
-## 2  1991 32
-## 3  1992 32
-## 4  1993 32
-## 5  1994 32
-## 6  1995 32
-## 7  1996 32
-## 8  1997 32
-## 9  1998 32
-## 10 1999 32
-## 11 2000 32
-## 12 2001 32
-## 13 2002 32
-## 14 2003 32
-## 15 2004 32
-## 16 2005 32
-## 17 2006 32</code></pre>
-<pre class="r"><code>N2O_ghg %&gt;% 
-  summarise(n=n(), average = mean(Value), maximum = max(Value))</code></pre>
-<pre><code>##     n  average  maximum
-## 1 544 30398.24 202323.2</code></pre>
-<pre class="r"><code>N2O_ghg %&gt;% 
-  filter(Value &gt; 202323)</code></pre>
-<pre><code>##   Country Pollutant Year    Value
-## 1  France       N2O 1990 202323.2</code></pre>
+  summarise(n=n(), average = mean(Value), std = sd(Value), maximum = max(Value))</code></pre>
+<pre><code>##     n  average      std  maximum
+## 1 544 30398.24 42287.36 202323.2</code></pre>
+<p>That’s a big standard deviation. It kinda makes sense since it was calculated through all the countries. A lot of times, we want to summarize the information not through all the data but by a group, say <code>Country</code> in this case. <code>group_by</code> function will divide the data with the columns/variables that you specified, and the latter functions can be applied to each divided data section.</p>
 <pre class="r"><code>N2O_ghg %&gt;% 
   group_by(Country) %&gt;% 
-  summarise(average = mean(Value), maximum = max(Value))</code></pre>
-<pre><code>## # A tibble: 32 x 3
-##    Country        average maximum
-##    &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Austria         13390.  14894.
-##  2 Belgium         16981.  17868.
-##  3 Bulgaria        11711.  24298.
-##  4 Cyprus           1037.   1165.
-##  5 Czech Republic  18907.  30931.
-##  6 Denmark         23760.  29140.
-##  7 Estonia          3165.   6231.
-##  8 Finland         13321.  16018.
-##  9 France         187117. 202323.
-## 10 Germany        135265. 156105.
+  summarise(average = mean(Value), std = sd(Value), maximum = max(Value)) </code></pre>
+<pre><code>## # A tibble: 32 x 4
+##    Country        average   std maximum
+##    &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Austria         13390.  900.  14894.
+##  2 Belgium         16981.  938.  17868.
+##  3 Bulgaria        11711. 4051.  24298.
+##  4 Cyprus           1037.  241.   1165.
+##  5 Czech Republic  18907. 4110.  30931.
+##  6 Denmark         23760. 3254.  29140.
+##  7 Estonia          3165. 1302.   6231.
+##  8 Finland         13321. 1039.  16018.
+##  9 France         187117. 8057. 202323.
+## 10 Germany        135265. 6463. 156105.
 ## # … with 22 more rows</code></pre>
-<div id="exercise-4" class="section level4" number="2.2.3.1">
-<h4 number="2.2.3.1"><span class="header-section-number">2.2.3.1</span> <font color="indigo">Exercise</font></h4>
-<p>asdf</p>
+<p>We just got some summaries of each European countries “N2O” gas emission throughout years. <code>arrange</code> function can be used to order a dataset based on values in one or multiple columns you defined. For example, I may want to order the dataset above based on firstly the “average”, and then “std” columns:</p>
+<pre class="r"><code>N2O_ghg %&gt;% 
+  group_by(Country) %&gt;% 
+  summarise(average = mean(Value), std = sd(Value), maximum = max(Value)) %&gt;% 
+  arrange(desc(average), std)</code></pre>
+<pre><code>## # A tibble: 32 x 4
+##    Country        average   std maximum
+##    &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1 France         187117. 8057. 202323.
+##  2 Germany        135265. 6463. 156105.
+##  3 United Kingdom  94891. 6837. 104129.
+##  4 Italy           74424. 2530.  78243.
+##  5 Spain           72686. 5701.  81671.
+##  6 Poland          72536. 7934.  97904.
+##  7 Romania         45278. 9637.  73284.
+##  8 Netherlands     36396. 4219.  41262.
+##  9 Greece          28968. 1739.  32453.
+## 10 Ireland         24583. 1151.  26791.
+## # … with 22 more rows</code></pre>
+<p><code>arrange</code> will sort on ascending order in default. <code>arrange(desc(column_name))</code> will make it sort in descending order of the given column.</p>
 <p><br></p>
+<div class="Tip4">
+<p><strong>NOTE</strong></p>
+<p>We just went through a data wrangling process with some functions in <code>dplyr</code>. It also has many other useful functions such as <code>mutate()</code>, <code>relocate()``,</code>slice()`, and so on.</p>
+<p>There are many good online resources about how to apply these functions specifically based on your needs. This is a <a href="https://r4ds.had.co.nz/transform.html">good</a> one I found.</p>
 </div>
-</div>
-<div id="mutate" class="section level3" number="2.2.4">
-<h3 number="2.2.4"><span class="header-section-number">2.2.4</span> <font color="violet">mutate?</font></h3>
-<p>asdf</p>
-<div id="exercise-5" class="section level4" number="2.2.4.1">
-<h4 number="2.2.4.1"><span class="header-section-number">2.2.4.1</span> <font color="violet">Exercise</font></h4>
-<p>asdf</p>
 <p><br></p>
-</div>
 </div>
 </div>
 <div id="bonus-visualizing-data-with-ggplot2" class="section level2" number="2.3">
@@ -1073,8 +1064,8 @@ ghg %&gt;%
 N2O_ghg %&gt;% 
   ggplot(aes(x = Country, y = Year)) +
   geom_tile(aes(fill = Value))</code></pre>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
-<div id="exercise-6" class="section level3" number="2.3.1">
+<p><img src="tutorial_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<div id="exercise-4" class="section level3" number="2.3.1">
 <h3 number="2.3.1"><span class="header-section-number">2.3.1</span> Exercise</h3>
 <p>asdf</p>
 <p><br></p>
