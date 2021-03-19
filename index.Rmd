@@ -49,7 +49,7 @@ Notice that we may not have enough time to talk about all the "R basics" in this
 
 
 <style>
-div.blue {
+  .blue{
   padding: 1em;
   margin: 1em 0;
   padding-left: 100px;
@@ -61,7 +61,7 @@ div.blue {
   background-color: #bed3ec;
   border: solid 5px #dfedff;
   background-image: url("images/lightbulb.png")
-}
+  }
 </style>
 
 
