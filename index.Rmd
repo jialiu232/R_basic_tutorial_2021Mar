@@ -60,7 +60,7 @@ Notice that we may not have enough time to talk about all the "R basics" in this
   color: #1f5386;
   background-color: #bed3ec;
   border: solid 5px #dfedff;
-  background-image: url("images/lightbulb.png")
+  background-image: url("images/lightbulb.jpg")
   }
 </style>
 
