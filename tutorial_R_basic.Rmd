@@ -28,7 +28,18 @@ Date: 03/26/2021
 
 <br>
 
-Let's assume that you have R and Rstudio installed on your computer, launch Rstudio and you should be able to see the Rstudio window:  
+Let's assume that you have R and Rstudio installed on your computer, and you have downloaded the GitHub Repository of [this workshop](https://github.com/jialiu232/2021_Spring_R_Basic_Workshop).    
+
+Please do the following steps to open the workshop R package in your Rstudio:
+
+- **Navigate** to the downloaded "2021_Spring_R_Basic_Workshop" directory on your computer
+
+- **Right click** on the file "2021_Spring_R_Basic_Workshop.Rproj" > **Open With** > **RStudio**
+
+<br>
+
+
+A general Rstudio interface may look like this:   
 
 <br>
 
