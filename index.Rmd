@@ -40,7 +40,7 @@ In this tutorial, I will try to give you a big picture of R.
 
 <br>
 
-![](images/big_pic.png){width=150%}
+![](images/big_pic.png){width=100%}
 
 <br> 
 
