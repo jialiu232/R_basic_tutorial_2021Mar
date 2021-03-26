@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R Basic Tutorial</title>
+
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="tutorial_R_basic.html">R Basic</a>
+</li>
+<li>
+  <a href="tutorial_R_advanced.html">Advanced R</a>
+</li>
+<li>
+  <a href="more_resources.html">More Resources</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">R Basic Tutorial</h1>
+
+</div>
+
+
+<hr />
+<p>Author: Jia Liu</p>
+<p>Date: 03/26/2021</p>
+<hr />
+<p><br></p>
+<div id="get-familiar-with-rstudio" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Get familiar with Rstudio</h1>
+<p><br></p>
+<div id="about-rstudio" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> About Rstudio</h2>
+<p><br></p>
+<p>Let’s assume that you have R and Rstudio installed on your computer, launch Rstudio and you should be able to see the Rstudio window:</p>
+<p><br></p>
+<p><img src="images/rstudio-windows.png" style="width:100.0%" /></p>
+<p><br></p>
+<ul>
+<li><p>Panel 1: create and edit your R script, R markdown, or other files. (To create a new file: <strong>File</strong> &gt; <strong>New File</strong> &gt; select the type of file of interest)</p></li>
+<li><p>Panel 2: typing R commands</p></li>
+<li><p>Panel 3: check the R objects or variables you’ve created in <strong>Environment</strong>, and the previous R commands in <strong>History</strong></p></li>
+<li><p>Panel 4: <strong>Files</strong> list the files in your working directory; <strong>Plots</strong> show the plots you created; <strong>Packages</strong> show the available external R packages</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="get-and-set-working-directory" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> Get and set working directory</h2>
+<p>You can know where your current working directory is by:</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;/Users/liujia/Documents/R_projects/R_basic_tutorial_2021Mar&quot;</code></pre>
+<p>You can set your working directory to your preferred folder by:</p>
+<ul>
+<li><p>an R command:</p>
+<ul>
+<li><p>For mac and linux: <code>setwd("path/to/your/folder")</code></p></li>
+<li><p>For windows, your command might be: <code>setwd("C:/Users/path/to/working/directory")</code></p></li>
+</ul></li>
+<li><p>clicking <strong>Session</strong> &gt; <strong>Set Working Directory</strong> &gt; <strong>Choose Directory …</strong></p></li>
+</ul>
+<p><br></p>
+</div>
+</div>
+<div id="data-types-and-operators" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> <font color="orange">Data types</font> and <font color="red">Operators</font></h1>
+<p><br></p>
+<div id="numeric" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> <font color="orange">Numeric</font></h2>
+<p>Numeric values may look like <span class="math inline">\(200\)</span> or <span class="math inline">\(3.8\)</span>. Integer and double (floating point numbers) are two most common numerical types.</p>
+<p><strong>1. Create a numerical variable</strong></p>
+<p>You can create a variable with a numerical value by <code>=</code> or <code>&lt;-</code>:</p>
+<pre class="r"><code>a = 10
+print(a)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<p>Let’s create a variable <code>b</code> with a double typed value this time:</p>
+<pre class="r"><code>b &lt;- 8.4
+print(b)</code></pre>
+<pre><code>## [1] 8.4</code></pre>
+<pre class="r"><code>c &lt;- b + 2
+print(c)</code></pre>
+<pre><code>## [1] 10.4</code></pre>
+<p><strong>2. Do arithmetic operations on numerical variables</strong></p>
+<p>Arithmetic operators in R works as the normal mathematic operators and follow the order of operations/calculations.</p>
+<pre class="r"><code>20 * 4 + 1</code></pre>
+<pre><code>## [1] 81</code></pre>
+<p>Just as in mathematics operations, parentheses <code>()</code> can be used to change the order of operations.</p>
+<pre class="r"><code>20 * (4 + 1)</code></pre>
+<pre><code>## [1] 100</code></pre>
+<p><br></p>
+<blockquote>
+<p><font color="red">Arithmetic operators</font>:</p>
+</blockquote>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Mathematics operators
+</th>
+<th style="text-align:left;">
+R arithmetic operators
+</th>
+<th style="text-align:left;">
+Descriptions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a + b
+</td>
+<td style="text-align:left;">
+a + b
+</td>
+<td style="text-align:left;">
+a plus b
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a - b
+</td>
+<td style="text-align:left;">
+a - b
+</td>
+<td style="text-align:left;">
+a minus b
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a <span class="math inline">\(\times\)</span> b
+</td>
+<td style="text-align:left;">
+a * b
+</td>
+<td style="text-align:left;">
+a multiply b
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a <span class="math inline">\(\div\)</span> b
+</td>
+<td style="text-align:left;">
+a / b
+</td>
+<td style="text-align:left;">
+a divided by b
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a <span class="math inline">\(\%\)</span> b
+</td>
+<td style="text-align:left;">
+a %% b
+</td>
+<td style="text-align:left;">
+remainder of a divided by b
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(a ^ b\)</span>
+</td>
+<td style="text-align:left;">
+a ^ b
+</td>
+<td style="text-align:left;">
+a raised to the bth power
+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p><font color="red">Assignment operators</font>:</p>
+</blockquote>
+<p>We used <code>=</code> and <code>&lt;-</code> to assign values to variables. They seem to work similar, but there are some slight differences. In general, <code>&lt;-</code> is more often used when assigning a value to a variable. We can assign value (does not have to be numerical value) to variable with assignment operator <code>&lt;-</code>:</p>
+<pre class="r"><code>x &lt;- &quot;8&quot;
+print(x)</code></pre>
+<pre><code>## [1] &quot;8&quot;</code></pre>
+<p>Shortcut for assignment operator:</p>
+<ul>
+<li>In Windows: <code>Alt</code> + <code>-</code><br />
+</li>
+<li>In Mac: <code>Option</code> + <code>-</code></li>
+</ul>
+<p>See <a href="https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts">more</a> keyboard shortcuts for Rstudio.</p>
+<hr />
+<p><br></p>
+</div>
+<div id="character" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> <font color="orange">Character</font></h2>
+<p>Some examples of Character type can be: ‘this’, “me”, “29.9”, ‘FALSE’. The <code>x</code> variable we just created is a character variable. How do I know that?</p>
+<p><strong>1. Check the type of a variable</strong></p>
+<p>We can check the type of a variable with <code>typeof()</code> function:</p>
+<pre class="r"><code>print(x)</code></pre>
+<pre><code>## [1] &quot;8&quot;</code></pre>
+<pre class="r"><code>typeof(x)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>Normally, a value within two single quotes or double quotes (<code>'char'</code> or <code>"I am a character"</code>) has type of character.</p>
+<p><strong>2. Concatenate multiple characters</strong></p>
+<p>What if I want to concatenate two characters? Let’s try the <code>+</code> operator:</p>
+<pre class="r"><code>x + &quot;is my lucky number.&quot;</code></pre>
+<pre><code>## Error in x + &quot;is my lucky number.&quot;: non-numeric argument to binary operator</code></pre>
+<p>It seems that the <code>+</code> operator does not work for character type. There is a function <code>paste</code> that concatenate characters:</p>
+<pre class="r"><code>paste(x, &quot;is my lucky number.&quot;)</code></pre>
+<pre><code>## [1] &quot;8 is my lucky number.&quot;</code></pre>
+<p><strong>3. Change data type of a variable</strong></p>
+<p>x has value “8” and <strong>character</strong> type, I guess we cannot do mathematics operations on it based on our experience:</p>
+<pre class="r"><code>x + 2</code></pre>
+<pre><code>## Error in x + 2: non-numeric argument to binary operator</code></pre>
+<p>Then what if we change its type to <strong>numeric</strong> so that we can do arithmetic operation on <code>x</code>? <code>as.numeric()</code> function will do that:</p>
+<pre class="r"><code>y &lt;- as.numeric(x)
+print(y)</code></pre>
+<pre><code>## [1] 8</code></pre>
+<pre class="r"><code>typeof(y)</code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<p><code>as.datatype()</code> functions can change the data type of a variable or value, for example, we can use <code>as.character()</code> to change other types of values to character.</p>
+<pre class="r"><code>as.character(y)</code></pre>
+<pre><code>## [1] &quot;8&quot;</code></pre>
+<style>
+div.Tip0, div.Tip1, div.Tip2, div.Tip3, div.Tip4 {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-size: 70px;
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  min-height: 120px;
+  color: #1f5386;
+  background-color: #bed3ec;
+  border: solid 5px #dfedff;
+  background-image: url("images/lightbulb.jpg")
+}
+</style>
+<hr />
+<div class="Tip0">
+<p><strong>SUMMARY</strong></p>
+<p>We just went through two basic data types (numeric and character) and two operators (arithmetic and assignment). There are more useful data types and operators that we may or may not go through in the next. See more resources about <a href="https://swcarpentry.github.io/r-novice-inflammation/13-supp-data-structures/">data types</a> and <a href="https://www.geeksforgeeks.org/r-operators/#Assignment%20Operators">operators</a>.</p>
+</div>
+<p><br></p>
+<div id="exercise" class="section level3" number="2.2.1">
+<h3 number="2.2.1"><span class="header-section-number">2.2.1</span> <font color="orange">Exercise</font></h3>
+<ul>
+<li><p>A is a circle with radius <span class="math inline">\(r = 3\)</span>. Calculate the area of A and store the result in variable <code>area_A</code>. (<strong>Hint</strong>: <span class="math inline">\(\pi\)</span> value is a built-in value in R, and it is stored in variable <code>pi</code>)</p></li>
+<li><p>You can see that the data type of <code>area_A</code> is “double” by <code>typeof(area_A)</code>. Change the type of <code>area_A</code> to “character”.</p></li>
+</ul>
+<p><br></p>
+<p>Solution:</p>
+<ul>
+<li><code>area_A &lt;- pi * 3^2</code></li>
+<li><code>area_A &lt;- as.character(area_A)</code></li>
+</ul>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="data-structure" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> <font color="darkgoldenrod">Data structure</font></h1>
+<p><br></p>
+<p>Some frequently used R-objects / data structures are: “Vectors”, “Lists”, “Matrices”, “Arrays”, “Factors”, and “Data frames”.</p>
+<p><br></p>
+<div id="vector" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> <font color="darkgoldenrod">Vector</font></h2>
+<p><br></p>
+<p>Vector is probably the most commonly used data structure in R.</p>
+<p><strong>1. Create or add to a vector</strong></p>
+<p>You can create a vector with <code>c()</code> function:</p>
+<pre class="r"><code>nu &lt;- c(1, 2, 3)
+print(nu)</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>typeof(nu)</code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<p>Not just numeric vectors, you can also create a character vector:</p>
+<pre class="r"><code>ch &lt;- c(&quot;hi&quot;, &quot;what&#39;s up&quot;, &quot;hey&quot;)
+print(ch)</code></pre>
+<pre><code>## [1] &quot;hi&quot;        &quot;what&#39;s up&quot; &quot;hey&quot;</code></pre>
+<pre class="r"><code>typeof(ch)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>or logical vector:</p>
+<pre class="r"><code>lo &lt;- c(TRUE, FALSE, T)
+print(lo)</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>typeof(lo)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<blockquote>
+<p>Logical is another data type in R. Its value can be: <code>TRUE</code>, <code>T</code>, <code>FALSE</code>, <code>F</code>. Logical type is case sensitive. <code>false</code> is not a logical type.</p>
+</blockquote>
+<p><br></p>
+<p><code>c()</code> can also be used to add elements to existing vectors:</p>
+<pre class="r"><code>nu &lt;- c(nu, 100, 808)
+print(nu)</code></pre>
+<pre><code>## [1]   1   2   3 100 808</code></pre>
+<p>or</p>
+<pre class="r"><code>ch &lt;- c(&quot;hello&quot;, ch)
+print(ch)</code></pre>
+<pre><code>## [1] &quot;hello&quot;     &quot;hi&quot;        &quot;what&#39;s up&quot; &quot;hey&quot;</code></pre>
+<p>There are many other ways to create vectors, such as:</p>
+<pre class="r"><code>z &lt;- 1:10
+print(z)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<p><strong>2. Operate on vectors</strong></p>
+<p>Do arithmetic operations on vectors:</p>
+<pre class="r"><code>ve &lt;- c(2, 4, 3)
+ve / 2</code></pre>
+<pre><code>## [1] 1.0 2.0 1.5</code></pre>
+<pre class="r"><code>ve + c(1, 2, 3)</code></pre>
+<pre><code>## [1] 3 6 6</code></pre>
+<p>Apply some other functions to a vector:</p>
+<pre class="r"><code>print(ch)</code></pre>
+<pre><code>## [1] &quot;hello&quot;     &quot;hi&quot;        &quot;what&#39;s up&quot; &quot;hey&quot;</code></pre>
+<pre class="r"><code>paste(ch, &quot;there&quot;)</code></pre>
+<pre><code>## [1] &quot;hello there&quot;     &quot;hi there&quot;        &quot;what&#39;s up there&quot; &quot;hey there&quot;</code></pre>
+<p>Get the length of a vector using <code>length()</code> function:</p>
+<pre class="r"><code>length(ch)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<hr />
+<div class="Tip1">
+<p><strong>SUMMARY</strong></p>
+<ol style="list-style-type: decimal">
+<li>About <code>vector</code>:</li>
+</ol>
+<ul>
+<li>Vectors are in one dimensional</li>
+<li>All the elements within one vector needs to be of the same data type</li>
+<li>The operation that is applied to a vector will be applied to each element</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><p><code>matrix</code> can be described as an extension of <code>vector</code> from one dimensional to two dimensional. <code>matrix</code> is rectangular data and the elements within a matrix need to be of the same type.</p></li>
+<li><p><code>Array</code> is similar as <code>matrix</code>, but can be in more dimensions.</p></li>
+</ol>
+<p>Learn <a href="https://www.oreilly.com/library/view/learning-r/9781449357160/ch04.html">more</a> here.</p>
+</div>
+<p><br></p>
+<div id="exercise-1" class="section level3" number="3.1.1">
+<h3 number="3.1.1"><span class="header-section-number">3.1.1</span> <font color="darkgoldenrod">Exercise</font></h3>
+<ul>
+<li>Assign <code>c(15, 256, 11)</code> to variable <code>num</code><br />
+</li>
+<li>Check if each number in <code>num</code> is odd</li>
+</ul>
+<p><br></p>
+<p>Solution:</p>
+<ul>
+<li><code>num &lt;- c(15, 256, 11)</code></li>
+<li><code>num %% 2</code></li>
+</ul>
+<p><br></p>
+</div>
+</div>
+<div id="list" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> <font color="darkgoldenrod">List</font></h2>
+<p><br></p>
+<p>The “vector - matrix - array” data structure series are awesome, but they contain elements with only the same data type. Now we will learn about <strong>“list”</strong>, where one list can contain elements in different data types, including lists:</p>
+<pre class="r"><code>li &lt;- list(TRUE, 28, &quot;haha&quot;, F)
+li</code></pre>
+<pre><code>## [[1]]
+## [1] TRUE
+## 
+## [[2]]
+## [1] 28
+## 
+## [[3]]
+## [1] &quot;haha&quot;
+## 
+## [[4]]
+## [1] FALSE</code></pre>
+<p>Get the number of elements in a list by <code>length</code> again:</p>
+<pre class="r"><code>length(li)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p><br></p>
+</div>
+<div id="data-frame" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> <font color="darkgoldenrod">Data frame</font></h2>
+<p><br></p>
+<p>Consider data frame as a list of vectors with equal length. Different vector can have different data type.</p>
+<p>Create a data frame by <code>data.frame</code> function:</p>
+<pre class="r"><code>animal &lt;- c(&quot;cat&quot;, &quot;zebra&quot;, &quot;turtle&quot;, &quot;chicken&quot;)
+leg &lt;- c(4, 4, 4, 2)
+mammal &lt;- c(TRUE, TRUE, FALSE, FALSE)
+df &lt;- data.frame(animal, leg, mammal)
+df</code></pre>
+<pre><code>##    animal leg mammal
+## 1     cat   4   TRUE
+## 2   zebra   4   TRUE
+## 3  turtle   4  FALSE
+## 4 chicken   2  FALSE</code></pre>
+<hr />
+<p>A lot of data set that you will be working with in R are probably of data frame type. R provides some built-in data set that you can play with. List the pre-loaded data set by <code>data()</code>:</p>
+<pre class="r"><code>data()</code></pre>
+<p><code>mtcars</code> is a data set comprises 11 aspects of automobile information for 32 automobiles. Load the <code>mtcars</code>:</p>
+<pre class="r"><code># loading
+data(&quot;mtcars&quot;)</code></pre>
+<hr />
+<p>The following commands will give us a very basic description about the data frame:</p>
+<p>While <code>typeof()</code> tells the internal data type or storage mode of an object (lower level), <code>class()</code> returns the classes of the object (higher level):</p>
+<pre class="r"><code>typeof(mtcars)</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<pre class="r"><code>class(mtcars)</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<p>We can check the first several rows of a data frame by:</p>
+<pre class="r"><code>head(mtcars)</code></pre>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<p>or the last several rows of a dataframe by:</p>
+<pre class="r"><code>tail(mtcars)</code></pre>
+<pre><code>##                 mpg cyl  disp  hp drat    wt qsec vs am gear carb
+## Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.7  0  1    5    2
+## Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.9  1  1    5    2
+## Ford Pantera L 15.8   8 351.0 264 4.22 3.170 14.5  0  1    5    4
+## Ferrari Dino   19.7   6 145.0 175 3.62 2.770 15.5  0  1    5    6
+## Maserati Bora  15.0   8 301.0 335 3.54 3.570 14.6  0  1    5    8
+## Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.6  1  1    4    2</code></pre>
+<p>or the dimension of a data frame by:</p>
+<pre class="r"><code>dim(mtcars)</code></pre>
+<pre><code>## [1] 32 11</code></pre>
+<pre class="r"><code>nrow(mtcars)</code></pre>
+<pre><code>## [1] 32</code></pre>
+<pre class="r"><code>ncol(mtcars)</code></pre>
+<pre><code>## [1] 11</code></pre>
+<p>or the names attribute for a data frame by:</p>
+<pre class="r"><code>names(mtcars)</code></pre>
+<pre><code>##  [1] &quot;mpg&quot;  &quot;cyl&quot;  &quot;disp&quot; &quot;hp&quot;   &quot;drat&quot; &quot;wt&quot;   &quot;qsec&quot; &quot;vs&quot;   &quot;am&quot;   &quot;gear&quot; &quot;carb&quot;</code></pre>
+<pre class="r"><code>colnames(mtcars)</code></pre>
+<pre><code>##  [1] &quot;mpg&quot;  &quot;cyl&quot;  &quot;disp&quot; &quot;hp&quot;   &quot;drat&quot; &quot;wt&quot;   &quot;qsec&quot; &quot;vs&quot;   &quot;am&quot;   &quot;gear&quot; &quot;carb&quot;</code></pre>
+<p>some data sets may also have row names:</p>
+<pre class="r"><code>rownames(mtcars)</code></pre>
+<pre><code>##  [1] &quot;Mazda RX4&quot;           &quot;Mazda RX4 Wag&quot;       &quot;Datsun 710&quot;          &quot;Hornet 4 Drive&quot;      &quot;Hornet Sportabout&quot;  
+##  [6] &quot;Valiant&quot;             &quot;Duster 360&quot;          &quot;Merc 240D&quot;           &quot;Merc 230&quot;            &quot;Merc 280&quot;           
+## [11] &quot;Merc 280C&quot;           &quot;Merc 450SE&quot;          &quot;Merc 450SL&quot;          &quot;Merc 450SLC&quot;         &quot;Cadillac Fleetwood&quot; 
+## [16] &quot;Lincoln Continental&quot; &quot;Chrysler Imperial&quot;   &quot;Fiat 128&quot;            &quot;Honda Civic&quot;         &quot;Toyota Corolla&quot;     
+## [21] &quot;Toyota Corona&quot;       &quot;Dodge Challenger&quot;    &quot;AMC Javelin&quot;         &quot;Camaro Z28&quot;          &quot;Pontiac Firebird&quot;   
+## [26] &quot;Fiat X1-9&quot;           &quot;Porsche 914-2&quot;       &quot;Lotus Europa&quot;        &quot;Ford Pantera L&quot;      &quot;Ferrari Dino&quot;       
+## [31] &quot;Maserati Bora&quot;       &quot;Volvo 142E&quot;</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="accessing-elements-in-a-data-structure" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> <font color="darkgoldenrod">Accessing elements in a data structure</font></h2>
+<p><br></p>
+<p><strong>1. Accessing elements in a vector using <code>[index]</code> or <code>[index_start : index_end]</code></strong></p>
+<pre class="r"><code>z &lt;- c(100, 200, 300, 400)
+z</code></pre>
+<pre><code>## [1] 100 200 300 400</code></pre>
+<pre class="r"><code># access the third element in z
+z[3]</code></pre>
+<pre><code>## [1] 300</code></pre>
+<pre class="r"><code># access the second to forth elements in z
+z[2:4]</code></pre>
+<pre><code>## [1] 200 300 400</code></pre>
+<p><br></p>
+<p><strong>2. Accessing elements in a data frame</strong></p>
+<ul>
+<li>Get specific columns:</li>
+</ul>
+<p>You can get a specific column of a dataframe by df_name$colume_name`:</p>
+<pre class="r"><code>mtcars$mpg</code></pre>
+<ul>
+<li><p>Accessing elements with <code>df_name[r_index, c_index]</code></p>
+<ul>
+<li><code>r_index</code>/<code>c_index</code> can be row/column numbers or ranges. For example, get the element at row 3, column 6:</li>
+</ul></li>
+</ul>
+<pre class="r"><code>mtcars[3, 6]</code></pre>
+<pre><code>## [1] 2.32</code></pre>
+<p>If you want to get specific row(s), then specify the row number(s) and leave the column part empty, <code>df_name[r_index, ]</code>. For example, you can get the first three rows by:</p>
+<pre class="r"><code># return the first 3 rows
+mtcars[1:3, ]</code></pre>
+<p>If you just want to select specific column(s), then leave the row index empty, <code>df_name[ , c_index]</code>. Here you can get the column 4 to 8 by:</p>
+<pre class="r"><code># return the last 5 columns
+head(mtcars[ , 4:8])</code></pre>
+<ul>
+<li><code>c_index</code> can be column names.</li>
+</ul>
+<pre class="r"><code>mtcars[ , c(&quot;mpg&quot;, &quot;gear&quot;)]</code></pre>
+<ul>
+<li><code>r_index</code> can be relational operator</li>
+</ul>
+<p>We can get the rows of <code>mtcars</code> with <code>mpg</code> columns bigger than <span class="math inline">\(20\)</span>:</p>
+<pre class="r"><code>mtcars[mtcars$mpg &gt; 20, ]</code></pre>
+<p>Or we may only be interested in rows that <code>gear</code> equals to 4:</p>
+<pre class="r"><code>mtcars[mtcars$gear == 4, ]</code></pre>
+<p>The symbol <code>&gt;</code> and <code>==</code> we used above are so called “relational operator”. Normally a relational operator will return a logical type (TRUE / FALSE) based on the relationship between its left and right side. Then the outer part of the code, if there’s any, will decide what to do based on the logical type.</p>
+<hr />
+<blockquote>
+<p><font color="red">Relational operator</font></p>
+</blockquote>
+<ul>
+<li><code>==</code>: checks if the left side values equal to that of the right side. So in the example above, for each row, if its <code>Pollutant</code> value is “CO2”, the row will be filtered as one of the output.</li>
+<li><code>&gt;</code>: greater than</li>
+<li><code>&lt;</code>:less than</li>
+<li><code>&lt;=</code>: less than or equal to</li>
+<li><code>&gt;=</code>: greater than or equal to</li>
+<li><code>!=</code>: unequal to</li>
+</ul>
+<hr />
+<p>What about if I am interested with the data of both <code>mtcars$mpg &gt; 20</code> and <code>mtcars$gear == 4</code>?</p>
+<p>You can include both two conditions with <code>&amp;</code> (<strong>AND</strong>):</p>
+<pre class="r"><code>mtcars[mtcars$mpg &gt; 20 &amp; mtcars$gear == 4, ]</code></pre>
+<p>The <code>|</code> (<strong>OR</strong>) operator returns true if its left side or right side is true. For example, we can get all the rows of <code>cyl</code> equals to <span class="math inline">\(6\)</span> or <span class="math inline">\(8\)</span> by:</p>
+<pre class="r"><code>mtcars[mtcars$cyl == 6 | mtcars$cyl == 8, ]</code></pre>
+<p>The <code>&amp;</code> and <code>|</code> we just saw are two logical operators.</p>
+<hr />
+<blockquote>
+<p><font color="red">Logical operator</font></p>
+</blockquote>
+<ul>
+<li><code>!x</code>: NOT x</li>
+<li><code>x | y</code>: x OR y</li>
+<li><code>x &amp; y</code>: x AND y</li>
+</ul>
+<hr />
+<div class="Tip3">
+<p><strong>SUMMARY</strong></p>
+<p>R’s basic subsetting is powerful. It allows you to adopt different methods, such as relational and logical operators to extract the useful information from a data set. I am including some good online resources here about subsetting: <a href="https://hughjonesd.github.io/subsetting.html">Everything I know about R subsetting</a>, and <a href="https://adv-r.hadley.nz/subsetting.html">subsetting in the book <em>Advanced R</em></a>.</p>
+<p>There are other useful packages and functions to subset data frames, for example <code>tidyverse</code>. You will learn more about it in the R advanced workshop.</p>
+</div>
+<p><br></p>
+<div id="exercise-2" class="section level3" number="3.4.1">
+<h3 number="3.4.1"><span class="header-section-number">3.4.1</span> <font color="darkgoldenrod">Exercise</font></h3>
+<ul>
+<li>Get the rows of which <code>cyl</code> equals to <span class="math inline">\(4\)</span> and <code>hp</code> column bigger or equal to <span class="math inline">\(110\)</span> from <code>mtcars</code> data frame</li>
+</ul>
+<p><br></p>
+<p>Solution:</p>
+<pre class="r"><code>mtcars[mtcars$cyl == 4 &amp; mtcars$hp &gt;= 110, ]</code></pre>
+<pre><code>##               mpg cyl disp  hp drat    wt qsec vs am gear carb
+## Lotus Europa 30.4   4 95.1 113 3.77 1.513 16.9  1  1    5    2</code></pre>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="functions-and-packages" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> <font color="olivedrab">Functions and Packages</font></h1>
+<p><br></p>
+<div id="functions" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> <font color="olivedrab">Functions</font></h2>
+<p>The base R has many useful built-in functions that maybe helpful to your data. The normal syntax of using a function is as such: <code>function_name(argument 1, argument 2, ...)</code></p>
+<ul>
+<li><code>print</code> can be used to display information</li>
+</ul>
+<pre class="r"><code>h &lt;- c(8, 2, 5.5)
+print(h)</code></pre>
+<pre><code>## [1] 8.0 2.0 5.5</code></pre>
+<ul>
+<li><code>sort</code>: Order a vector in ascending or descending order.</li>
+</ul>
+<pre class="r"><code># function name: sort; argument: y
+sort(h)</code></pre>
+<pre><code>## [1] 2.0 5.5 8.0</code></pre>
+<p>We just sorted a vector in ascending order, but how to do it in descending order? <strong>How to get all the arguments info of a function and learn how to use a function?</strong></p>
+<ul>
+<li>Normally, you can find the detailed description, usage, and arguments information in the function/package R documentation. Search the R Documentation by <code>?function_name</code> or search R help files with a word or phrase by <code>??regresion</code>:</li>
+</ul>
+<pre class="r"><code>?sort
+
+# sort vector y in descending order
+sort(h, decreasing = TRUE)</code></pre>
+<pre><code>## [1] 8.0 5.5 2.0</code></pre>
+<pre class="r"><code>??regresion</code></pre>
+<ul>
+<li>The second way is just to Google!</li>
+</ul>
+<p><br></p>
+</div>
+<div id="packages" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> <font color="olivedrab">Packages</font></h2>
+<p>Sometimes the functions you want to use may not be included in base R, but instead in a specific R package. That’s when we need to install the package.</p>
+<p><code>dplyr</code> is a R package that is being widely used for data manipulation.</p>
+<pre class="r"><code># install the package
+install.packages(&quot;dplyr&quot;)
+
+# load the add-on package
+library(dplyr)</code></pre>
+<hr />
+<div class="Tip2">
+<p><strong>SUMMARY</strong></p>
+<p>Most of the times, you can find help about the function/package that you are interested in from its documentation or online sources. But if your work needs some specific functions or the same chunk of code is reused multiple times, it’s always a good idea to write your own functions or even packages! See these resources of <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/">creating functions</a> and <a href="http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf">your own R package</a>.</p>
+</div>
+<p><br></p>
+</div>
+</div>
+<div id="summary" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Summary</h1>
+<p>Let’s have a look at the “big picture” again:</p>
+<p><img src="images/beads.png" style="width:100.0%" /> <br></p>
+<p>We put some beads onto several threads, and there is always more to self educate yourself about. Notice that you don’t need to wait until being familiar with all the R basics to use R in your research or data analysis. You will keep learning and building your fundamentals while using R. Hope the R advanced workshop can give you some ideas about how to use R to explore your data.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

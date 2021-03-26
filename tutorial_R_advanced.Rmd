@@ -1,0 +1,225 @@
+---
+title: "Advanced R Tutorial"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    number_sections: true
+    collapsed: false
+    css: style.css
+---
+
+---- 
+
+Author: Henri Chung, Jia Liu    
+
+Date: 03/27/2021
+
+----
+
+<br>
+
+# Import data to R
+
+In practice, our data may often look like this:
+
+```{r echo=FALSE, results='asis'}
+library(kableExtra)
+kable(mtcars[1:5, ]) %>% 
+  kable_styling()
+```
+
+Before talking about how to access values in such dataframes, let's first see how we can import a dataset into R:
+
+```{r}
+?read.table()
+ghg <- read.table("/Users/liujia/Desktop/europ_agriculture_GHG.csv", header = TRUE, sep = ",")
+```
+
+```{r, eval=FALSE}
+# open the dataset in R
+View(ghg)
+```
+
+
+This is a dataset of greenhouse emission from agricultural area of European countries during Year $1990$-$2006$. The original dataset was downloaded from the [European Union Open Data Portal](https://data.europa.eu/euodp/en/data/dataset?q=air+emission&vocab_catalog=http%3A%2F%2Fdata.europa.eu%2F88u%2Fcatalog%2Feuodp&ext_boolean=all&sort=). I simplified the data so that it fits our workshop better.
+
+<br>
+
+Let's take a quick look at the data:
+
+```{r}
+# return the first parts of the object which is dataframe "ghg" here
+head(ghg)
+
+# return the last parts
+tail(ghg)
+
+# return the number of rows
+nrow(ghg)
+
+# return the number of columns
+ncol(ghg)
+
+# return the dimensions
+dim(ghg)
+```
+
+
+
+>Notice that the datasets you work with in practical may not be clean, for example, there maybe missing values. [Here](https://uc-r.github.io/missing_values) is a link that talks about how to deal with missing values in R. You may find more solutions or suggestions online. 
+
+<br>
+
+
+
+
+
+# Data wrangling with `tidyverse`
+
+<br>
+
+In the last Exercise, you applied one function `sort` to a dataframe. Sometimes, you may need to use multiple functions, say 10, to a dataframe before you get the final set that you like. Through this long process, you either store the output of each function to a variable and use it as an input of the next function, or use some function commands with data as the argument of the next function. Either way, it can be messy and easy to lose control of.    
+
+In `dplyr` package, there is a pipe operator `%>%`, which allows you to transfer the data or output of the previous function to be as the default input data of the next function:
+
+```{r, eval=FALSE}
+df_name %>% 
+  function1( ... arguments)  %>% 
+  function2( ... arguments) %>% 
+  function3( ... arguments)
+```
+
+
+There are some very useful `dplyr` functions that can help us work with data. We will learn about some of them today.
+
+----
+
+## **Select** columns of interest
+
+Again with the `ghg` data:
+```{r}
+head(ghg)
+```
+
+We can know from the data description that all these data are from agriculture area, so the `Sector` and `Sector_code` columns are not really useful here. Also, we've already known that the `Units` for all the pollutant have all been unified to the same equivalance of $CO_2$, so "Units" column doesn't help explaining any specific information. I am not interested in "Country_code" column neither. So the columns that I am really interested are `Country`, `Pollutant`, `Year`, `Value`. 
+
+To select these columns:
+```{r, eval=FALSE}
+select(ghg, Country, Pollutant, Year, Value)
+
+ghg %>% 
+  select(Country, Pollutant, Year, Value) 
+```
+
+
+We can achieve the same goal by unselect the columns of not interested:
+
+```{r, eval=FALSE}
+ghg %>% 
+  select(-c(Country_code, Sector, Sector_code, Units))
+```
+
+
+>[More](https://suzan.rbind.io/2018/01/dplyr-tutorial-1/#selecting-columns-the-basics) options for selecting columns.
+
+<br>
+
+
+## **Filter** rows of interest
+
+We may be interested in rows with specific patterns. For example, all the rows with `Pollutant == CO2`:
+
+```{r, eval=FALSE}
+ghg %>% 
+  select(Country, Pollutant, Year, Value) %>% 
+  filter(Pollutant == "CO2")
+```
+
+
+
+You can filter out rows with `Year > 2000` by:
+```{r, eval=FALSE}
+ghg %>% 
+  select(Country, Pollutant, Year, Value) %>% 
+  filter(Year > 2000)
+```
+
+In many situations, we may need to filter out rows with multiple conditions. For example, I can filter all the rows with `Year > 2000` and `Pollutant == "CO2"` by combining these two conditions with `&`:
+```{r, eval=FALSE}
+ghg %>% 
+  select(Country, Pollutant, Year, Value) %>% 
+  filter(Year > 2000 & Pollutant == "CO2")
+```
+
+
+<br>
+
+### Exercise
+
+- You will use `ghg` as your input data, and use the `%>%` to pipe through functions like what we just did. So,
+
+  - Take `ghg` data, select columns `Country`, `Pollutant`, `Year`, `Value` with `select` function
+  - Filter out rows with `Pollutant == N2O`
+  - Assign the values generated from above to variable `N2O_ghg` (Hint: use `<-` to assign value to variable)
+
+Solution: 
+
+```{r}
+N2O_ghg <- ghg %>% 
+  select(Country, Pollutant, Year, Value) %>% 
+  filter(Pollutant == "N2O")
+```
+
+
+<br>
+
+## Summarize and Divide data
+
+You know how to do some manupulation to your data know. Some basic maths information may help you learn more about your data. `summarise()` function summarizes some maths such as sum, average, standard deviation, maximum, minimum, and counts of the columns you defined. To apply `summarise`, you can add your new column name, and let it equals to the math function with the variable. More than one summary functions are possible. 
+
+```{r}
+N2O_ghg %>% 
+  summarise(n=n(), average = mean(Value), std = sd(Value), maximum = max(Value))
+```
+
+That's a big standard deviation. It kinda makes sense since it was calculated through all the countries. A lot of times, we want to summarize the information not through all the data but by a group, say `Country` in this case. `group_by` function will divide the data with the columns/variables that you specified, and the latter functions can be applied to each divided data section. 
+
+```{r}
+N2O_ghg %>% 
+  group_by(Country) %>% 
+  summarise(average = mean(Value), std = sd(Value), maximum = max(Value)) 
+```
+
+We just got some summaries of each European countries "N2O" gas emission throughout years. `arrange` function can be used to order a dataset based on values in one or multiple columns you defined. For example, I may want to order the dataset above based on firstly the "average", and then "std" columns: 
+
+```{r}
+N2O_ghg %>% 
+  group_by(Country) %>% 
+  summarise(average = mean(Value), std = sd(Value), maximum = max(Value)) %>% 
+  arrange(desc(average), std)
+```
+
+`arrange` will sort on ascending order in default. `arrange(desc(column_name))` will make it sort in descending order of the given column. 
+
+<br>
+
+
+
+# Visualizing data with `ggplot2`
+
+
+- syntax of ggplot2
+
+- plot the `ghg` data with ggplot2
+
+## Exercise
+
+
+<br>
+
+
+
+
+

@@ -11,7 +11,7 @@
 
 
 
-<title>Tutorial</title>
+<title>Advanced R Tutorial</title>
 
 <script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -316,7 +316,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">R Basic</a>
+      <a class="navbar-brand" href="index.html">R</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -324,7 +324,10 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="tutorial.html">Tutorial</a>
+  <a href="tutorial_R_basic.html">R Basic</a>
+</li>
+<li>
+  <a href="tutorial_R_advanced.html">Advanced R</a>
 </li>
 <li>
   <a href="more_resources.html">More Resources</a>
@@ -341,254 +344,19 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Tutorial</h1>
+<h1 class="title toc-ignore">Advanced R Tutorial</h1>
 
 </div>
 
 
-<p><br></p>
-<div id="learning-r-fundamentals" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Learning R fundamentals</h1>
-<p><br></p>
-<div id="basic-operators-and-datatypes" class="section level2" number="1.1">
-<h2 number="1.1"><span class="header-section-number">1.1</span> <font color="red">Basic operators and datatypes</font></h2>
-<p><br></p>
-<div id="arithmetic-operators" class="section level3" number="1.1.1">
-<h3 number="1.1.1"><span class="header-section-number">1.1.1</span> <font color="red">Arithmetic operators</font></h3>
-<p>Arithmetic operators in R works as the normal mathematic operators and follow the order of operations/calculations.</p>
-<pre class="r"><code>20 * 4 + 1</code></pre>
-<pre><code>## [1] 81</code></pre>
-<p>Just as in mathematics operations, parentheses <code>()</code> can be used to change the order of operations.</p>
-<pre class="r"><code>20 * (4 + 1)</code></pre>
-<pre><code>## [1] 100</code></pre>
-<p><br></p>
-<blockquote>
-<p>More arithmetic operators:</p>
-</blockquote>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Mathematics operators
-</th>
-<th style="text-align:left;">
-R arithmetic operators
-</th>
-<th style="text-align:left;">
-Descriptions
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-a + b
-</td>
-<td style="text-align:left;">
-a + b
-</td>
-<td style="text-align:left;">
-a plus b
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-a - b
-</td>
-<td style="text-align:left;">
-a - b
-</td>
-<td style="text-align:left;">
-a minus b
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-a <span class="math inline">\(\times\)</span> b
-</td>
-<td style="text-align:left;">
-a * b
-</td>
-<td style="text-align:left;">
-a multiply b
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-a <span class="math inline">\(\div\)</span> b
-</td>
-<td style="text-align:left;">
-a / b
-</td>
-<td style="text-align:left;">
-a divided by b
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-a <span class="math inline">\(\%\)</span> b
-</td>
-<td style="text-align:left;">
-a %% b
-</td>
-<td style="text-align:left;">
-remainder of a divided by b
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-<span class="math inline">\(a ^ b\)</span>
-</td>
-<td style="text-align:left;">
-a ^ b
-</td>
-<td style="text-align:left;">
-a raised to the bth power
-</td>
-</tr>
-</tbody>
-</table>
 <hr />
-<p>Way more than a calculator, R can not only operate on numerical values, but also on <code>vectors</code>, an important data type in R. Vectorization makes R very efficient in operating with high dimensional data.</p>
-<p>You can define a vector as below:</p>
-<pre class="r"><code>c(1, 2, 3)</code></pre>
-<pre><code>## [1] 1 2 3</code></pre>
-<p>Operate on vectors:</p>
-<pre class="r"><code>c(2, 4, 3)</code></pre>
-<pre><code>## [1] 2 4 3</code></pre>
-<pre class="r"><code>c(2, 4, 3) / 2</code></pre>
-<pre><code>## [1] 1.0 2.0 1.5</code></pre>
-<pre class="r"><code>c(2, 4, 3) + c(1, 2, 3)</code></pre>
-<pre><code>## [1] 3 6 6</code></pre>
-<pre class="r"><code>c(2, 4, 3) / 2 + c(1, 2, 3) * 3</code></pre>
-<pre><code>## [1]  4.0  8.0 10.5</code></pre>
-<style>
-div.Tip1, div.Tip2, div.Tip3, div.Tip4 {
-  padding: 1em;
-  margin: 1em 0;
-  padding-left: 100px;
-  background-size: 70px;
-  background-repeat: no-repeat;
-  background-position: 15px center;
-  min-height: 120px;
-  color: #1f5386;
-  background-color: #bed3ec;
-  border: solid 5px #dfedff;
-  background-image: url("images/lightbulb.jpg")
-}
-</style>
-<div class="Tip1">
-<p><strong>NOTE</strong></p>
-<p>Some frequently used R-objects are: “Vectors”, “Lists”, “Matrices”, “Arrays”, “Factors”, and “Dataframes”.</p>
-<p>“Vectors” which we just worked with is probably the simplest and most fundamental object. Vectors can be of six classes: Logical (e.g., TRUE, FALSE), Numeric (e.g., 20.34, 100), Integer (e.g., 0L, 3L), Complex (e.g., 3+2i), Character (e.g., ‘Hello world’, ‘3.14’, ‘z’), and Raw (e.g., <code>charToRaw("math")</code>).</p>
-<p>Later we will also go through dataframes in this workshop.</p>
-</div>
-<p>No matter which R object we are working with, sometimes it may not be easy to directly embed these data into a math operation or other functions as above (e.g., what if the data is a <span class="math inline">\(1000 \times 10000\)</span> matrix). Instead we will assign and store the data / value to a so-called “variable”.</p>
-<p><br></p>
-</div>
-<div id="assignment-operators" class="section level3" number="1.1.2">
-<h3 number="1.1.2"><span class="header-section-number">1.1.2</span> <font color="red">Assignment operators</font></h3>
-<p>We can assign value to variable with assignment operator <code>&lt;-</code>. Let’s assign <code>c(2, 4, 3)</code> to variable <code>x</code>:</p>
-<pre class="r"><code>x &lt;- c(2, 4, 3)
-x</code></pre>
-<pre><code>## [1] 2 4 3</code></pre>
-<pre class="r"><code>x / 2</code></pre>
-<pre><code>## [1] 1.0 2.0 1.5</code></pre>
-<pre class="r"><code>y &lt;- x / 2
-y</code></pre>
-<pre><code>## [1] 1.0 2.0 1.5</code></pre>
-<p>Shortcut for assignment operator:</p>
-<ul>
-<li>In Windows: <code>Alt</code> + <code>-</code><br />
-</li>
-<li>In Mac: <code>Cmd</code> + <code>-</code></li>
-</ul>
-<p><br></p>
-</div>
-<div id="exercise" class="section level3" number="1.1.3">
-<h3 number="1.1.3"><span class="header-section-number">1.1.3</span> <font color="red">Exercise</font></h3>
-<ul>
-<li>Assign <code>c(15, 256, 11)</code> to variable <code>num</code><br />
-</li>
-<li>Check if each number in <code>num</code> is odd</li>
-</ul>
-<p><br></p>
-</div>
-</div>
-<div id="functions-and-packages" class="section level2" number="1.2">
-<h2 number="1.2"><span class="header-section-number">1.2</span> <font color="orange">Functions and Packages</font></h2>
-<p><br></p>
-<p><strong>1. Functions</strong></p>
-<p>The base R has many useful built-in functions that maybe helpful to your data. The normal syntax of using a function is as such: <code>function_name(argument 1, argument 2, ...)</code></p>
-<ul>
-<li><code>print</code> can be used to display information</li>
-</ul>
-<pre class="r"><code>y</code></pre>
-<pre><code>## [1] 1.0 2.0 1.5</code></pre>
-<pre class="r"><code>print(y)</code></pre>
-<pre><code>## [1] 1.0 2.0 1.5</code></pre>
-<ul>
-<li><code>sort</code>: Order a vector into ascending or descending order.</li>
-</ul>
-<pre class="r"><code># function name: sort; argument: y
-sort(y)</code></pre>
-<pre><code>## [1] 1.0 1.5 2.0</code></pre>
-<p>We just sorted a vector in ascending order, but how to do it in descending order? <strong>How to get all the arguments info of a function and learn how to use a function?</strong></p>
-<ul>
-<li>Normally, you can find the detailed description, usage, and arguments information in the function/package R documentation. Search the R Documentation by <code>?function_name</code> or search R help files with a word or phrase by <code>??regresion</code>:</li>
-</ul>
-<pre class="r"><code>?sort
-
-# sort vector y in descending order
-sort(y, decreasing = TRUE)</code></pre>
-<pre><code>## [1] 2.0 1.5 1.0</code></pre>
-<pre class="r"><code>??regresion</code></pre>
-<ul>
-<li>The second way is just to Google!</li>
-</ul>
-<p><br></p>
-<p><strong>2. Packages</strong></p>
-<p>There are many basic and useful functions in base R. Sometimes the functions you want to use may not be included in base R, but instead in a specific R package. That’s when we need to install the package.</p>
-<p><code>dplyr</code> is a R package that we will use for data manipulation later in this workshop.</p>
-<pre class="r"><code># install the package
-install.packages(&quot;dplyr&quot;)
-
-# load and attach add-on packages
-library(dplyr)</code></pre>
-<div class="Tip2">
-<p><strong>NOTE</strong></p>
-<p>Most of the times, you can find help about the function/package that you are interested in from its documentation or online sources. But if your work needs some specific functions or the same chunk of code is reused multiple times, it’s always a good idea to write your own functions or even packages! See these resources of <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/">creating functions</a> and <a href="http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf">your own R package</a>.</p>
-</div>
-<p><br></p>
-<div id="exercise-1" class="section level3" number="1.2.1">
-<h3 number="1.2.1"><span class="header-section-number">1.2.1</span> <font color="orange">Exercise</font></h3>
-<ul>
-<li><code>ggplot2</code> is a package that makes graphics with user input data and commands. Install and load <code>ggplot2</code>.</li>
-</ul>
-<p><br></p>
-</div>
-</div>
-</div>
-<div id="data-exploring-with-r" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Data exploring with R</h1>
-<p><br></p>
-<div id="accessing-elements-in-dataframes" class="section level2" number="2.1">
-<h2 number="2.1"><span class="header-section-number">2.1</span> <font color="darkgoldenrod">Accessing elements in dataframes</font></h2>
-<p><br></p>
-<p><strong>1. Accessing elements in a vector use <code>[index]</code> or <code>[index_start : index_end]</code></strong></p>
-<pre class="r"><code>z &lt;- c(y, 200)
-z</code></pre>
-<pre><code>## [1]   1.0   2.0   1.5 200.0</code></pre>
-<pre class="r"><code># access the third element in z
-z[3]</code></pre>
-<pre><code>## [1] 1.5</code></pre>
-<pre class="r"><code># access the second to forth elements in z
-z[2:4]</code></pre>
-<pre><code>## [1]   2.0   1.5 200.0</code></pre>
+<p>Author: Henri Chung, Jia Liu</p>
+<p>Date: 03/27/2021</p>
 <hr />
 <p><br></p>
-<p><strong>2. Import data to R</strong></p>
-<p>In practice, we may often work with a dataframe that looks like this:</p>
+<div id="import-data-to-r" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Import data to R</h1>
+<p>In practice, our data may often look like this:</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -861,77 +629,9 @@ dim(ghg)</code></pre>
 <p>Notice that the datasets you work with in practical may not be clean, for example, there maybe missing values. <a href="https://uc-r.github.io/missing_values">Here</a> is a link that talks about how to deal with missing values in R. You may find more solutions or suggestions online.</p>
 </blockquote>
 <p><br></p>
-<p><strong>3. Accessing elements in a dataframe</strong></p>
-<p>You can get a specific column of a dataframe by df_name$colume_name`:</p>
-<pre class="r"><code>ghg$Country</code></pre>
-<p>Accessing elements with <code>df_name[r_index, c_index]</code></p>
-<ul>
-<li><code>r_index</code>/<code>c_index</code> can be row/column numbers or ranges. For example, get the element at row 3, column 6:</li>
-</ul>
-<pre class="r"><code>ghg[3, 6]</code></pre>
-<pre><code>## [1] 1992</code></pre>
-<p>If you want to get specific row(s), then specify the row number(s) and leave the column part empty, <code>df_name[r_index, ]</code>. For example, you can get the first three rows by:</p>
-<pre class="r"><code># return the first 3 rows
-ghg[1:3, ]</code></pre>
-<p>If you just want to select specific column(s), then leave the row index empty, <code>df_name[ , c_index]</code>. Here you can get the last 5 columns by:</p>
-<pre class="r"><code># return the last 5 columns
-head(ghg[ , 4:8])</code></pre>
-<ul>
-<li><code>c_index</code> can be column names.</li>
-</ul>
-<pre class="r"><code>ghg[ , c(&quot;Country&quot;, &quot;Year&quot;)]</code></pre>
-<ul>
-<li><code>r_index</code> can be relational operator</li>
-</ul>
-<p>We can get the records that are after Year <span class="math inline">\(2000\)</span>:</p>
-<pre class="r"><code>ghg[ghg$Year &gt; 2000, ]</code></pre>
-<p>Or we may only be interested in “CO2” pollutant, so get the rows of only CO2 by:</p>
-<pre class="r"><code>ghg[ghg$Pollutant == &quot;CO2&quot;, ]</code></pre>
-<p>The symbol <code>&gt;</code> and <code>==</code> we used above are so called “relational operator”. Normally a relational operator will return a logical type (TRUE / FALSE) based on the relationship between its leftside and rightside. Then the outer part of the code, if there’s any, will decide what to do based on the logical type.</p>
-<hr />
-<blockquote>
-<p>Relational operator:</p>
-</blockquote>
-<ul>
-<li><code>==</code>: checks if the left side values equal to that of the right side. So in the example above, for each row, if its <code>Pollutant</code> value is “CO2”, the row will be filtered as one of the output.</li>
-<li><code>&gt;</code>: greater than</li>
-<li><code>&lt;</code>:less than</li>
-<li><code>&lt;=</code>: less than or equal to</li>
-<li><code>&gt;=</code>: greater than or equal to</li>
-<li><code>!=</code>: unequal to</li>
-</ul>
-<hr />
-<p>What about if I am interested with the data of both CO2 and after Year 2000?</p>
-<p>You can include both two conditions with <code>&amp;</code> (<strong>AND</strong>):</p>
-<pre class="r"><code>ghg[ghg$Year &gt; 2000 &amp; ghg$Pollutant == &quot;CO2&quot;, ]</code></pre>
-<p>The <code>|</code> (<strong>OR</strong>) operator returns true if its leftside or rightside is true. For example, we can get all the rows of pollutant as “CO2” or “CH4” by:</p>
-<pre class="r"><code>ghg[ghg$Pollutant == &quot;CO2&quot; | ghg$Pollutant == &quot;CH4&quot;, ]</code></pre>
-<p>The <code>&amp;</code> and <code>|</code> we just saw are two logical operators.</p>
-<hr />
-<blockquote>
-<p>Logical operator:</p>
-</blockquote>
-<ul>
-<li><code>!x</code>: NOT x</li>
-<li><code>x | y</code>: x OR y</li>
-<li><code>x &amp; y</code>: x AND y</li>
-</ul>
-<hr />
-<div class="Tip3">
-<p><strong>NOTE</strong></p>
-<p>R’s basic subsetting operators are powerful. It allows you to adopt different methods, such as relational and logical operators to extract the useful information. I am including some good online resources here about subsetting: <a href="https://hughjonesd.github.io/subsetting.html">Everything I know about R subsetting</a>, and <a href="https://adv-r.hadley.nz/subsetting.html">subsetting in the book <em>Advanced R</em></a>.</p>
 </div>
-<p><br></p>
-<div id="exercise-2" class="section level3" number="2.1.1">
-<h3 number="2.1.1"><span class="header-section-number">2.1.1</span> <font color="darkgoldenrod">Exercise</font></h3>
-<ul>
-<li>Sort the “Value” column of <code>ghg</code> dataframe</li>
-</ul>
-<p><br></p>
-</div>
-</div>
-<div id="data-wrangling-with-tidyverse" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> <font color="darkgoldenrod">Data wrangling with <code>tidyverse</code></font></h2>
+<div id="data-wrangling-with-tidyverse" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Data wrangling with <code>tidyverse</code></h1>
 <p><br></p>
 <p>In the last Exercise, you applied one function <code>sort</code> to a dataframe. Sometimes, you may need to use multiple functions, say 10, to a dataframe before you get the final set that you like. Through this long process, you either store the output of each function to a variable and use it as an input of the next function, or use some function commands with data as the argument of the next function. Either way, it can be messy and easy to lose control of.</p>
 <p>In <code>dplyr</code> package, there is a pipe operator <code>%&gt;%</code>, which allows you to transfer the data or output of the previous function to be as the default input data of the next function:</p>
@@ -941,8 +641,8 @@ head(ghg[ , 4:8])</code></pre>
   function3( ... arguments)</code></pre>
 <p>There are some very useful <code>dplyr</code> functions that can help us work with data. We will learn about some of them today.</p>
 <hr />
-<div id="select-columns-of-interest" class="section level3" number="2.2.1">
-<h3 number="2.2.1"><span class="header-section-number">2.2.1</span> <font color="green"><strong>Select</strong> columns of interest</font></h3>
+<div id="select-columns-of-interest" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> <strong>Select</strong> columns of interest</h2>
 <p>Again with the <code>ghg</code> data:</p>
 <pre class="r"><code>head(ghg)</code></pre>
 <pre><code>##   Country_code Country Sector_code      Sector Pollutant Year    Value Units
@@ -966,8 +666,8 @@ ghg %&gt;%
 </blockquote>
 <p><br></p>
 </div>
-<div id="filter-rows-of-interest" class="section level3" number="2.2.2">
-<h3 number="2.2.2"><span class="header-section-number">2.2.2</span> <font color="blue"><strong>Filter</strong> rows of interest</font></h3>
+<div id="filter-rows-of-interest" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> <strong>Filter</strong> rows of interest</h2>
 <p>We may be interested in rows with specific patterns. For example, all the rows with <code>Pollutant == CO2</code>:</p>
 <pre class="r"><code>ghg %&gt;% 
   select(Country, Pollutant, Year, Value) %&gt;% 
@@ -981,8 +681,8 @@ ghg %&gt;%
   select(Country, Pollutant, Year, Value) %&gt;% 
   filter(Year &gt; 2000 &amp; Pollutant == &quot;CO2&quot;)</code></pre>
 <p><br></p>
-<div id="exercise-3" class="section level4" number="2.2.2.1">
-<h4 number="2.2.2.1"><span class="header-section-number">2.2.2.1</span> <font color="blue">Exercise</font></h4>
+<div id="exercise" class="section level3" number="2.2.1">
+<h3 number="2.2.1"><span class="header-section-number">2.2.1</span> Exercise</h3>
 <ul>
 <li><p>You will use <code>ghg</code> as your input data, and use the <code>%&gt;%</code> to pipe through functions like what we just did. So,</p>
 <ul>
@@ -998,8 +698,8 @@ ghg %&gt;%
 <p><br></p>
 </div>
 </div>
-<div id="summarize-and-divide-data" class="section level3" number="2.2.3">
-<h3 number="2.2.3"><span class="header-section-number">2.2.3</span> <font color="indigo">Summarize and Divide data</font></h3>
+<div id="summarize-and-divide-data" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Summarize and Divide data</h2>
 <p>You know how to do some manupulation to your data know. Some basic maths information may help you learn more about your data. <code>summarise()</code> function summarizes some maths such as sum, average, standard deviation, maximum, minimum, and counts of the columns you defined. To apply <code>summarise</code>, you can add your new column name, and let it equals to the math function with the variable. More than one summary functions are possible.</p>
 <pre class="r"><code>N2O_ghg %&gt;% 
   summarise(n=n(), average = mean(Value), std = sd(Value), maximum = max(Value))</code></pre>
@@ -1044,32 +744,17 @@ ghg %&gt;%
 ## # … with 22 more rows</code></pre>
 <p><code>arrange</code> will sort on ascending order in default. <code>arrange(desc(column_name))</code> will make it sort in descending order of the given column.</p>
 <p><br></p>
-<div class="Tip4">
-<p><strong>NOTE</strong></p>
-<p>We just went through a data wrangling process with some functions in <code>dplyr</code>. It also has many other useful functions such as <code>mutate()</code>, <code>relocate()``,</code>slice()`, and so on.</p>
-<p>There are many good online resources about how to apply these functions specifically based on your needs. This is a <a href="https://r4ds.had.co.nz/transform.html">good</a> one I found.</p>
-</div>
-<p><br></p>
 </div>
 </div>
-<div id="bonus-visualizing-data-with-ggplot2" class="section level2" number="2.3">
-<h2 number="2.3"><span class="header-section-number">2.3</span> Bonus: visualizing data with <code>ggplot2</code></h2>
-<p>asdf</p>
+<div id="visualizing-data-with-ggplot2" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Visualizing data with <code>ggplot2</code></h1>
 <ul>
 <li><p>syntax of ggplot2</p></li>
-<li><p>heatmap of N2O for each country in each year</p></li>
+<li><p>plot the <code>ghg</code> data with ggplot2</p></li>
 </ul>
-<pre class="r"><code>library(ggplot2)
-
-N2O_ghg %&gt;% 
-  ggplot(aes(x = Country, y = Year)) +
-  geom_tile(aes(fill = Value))</code></pre>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
-<div id="exercise-4" class="section level3" number="2.3.1">
-<h3 number="2.3.1"><span class="header-section-number">2.3.1</span> Exercise</h3>
-<p>asdf</p>
+<div id="exercise-1" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Exercise</h2>
 <p><br></p>
-</div>
 </div>
 </div>
 
