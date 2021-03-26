@@ -16,17 +16,19 @@ For future adventures!
 
 ## R fundamentals
 
-https://www.tutorialspoint.com/r/r_operators.htm    (a website of Learn R programming)
+A website: https://www.tutorialspoint.com/r/r_operators.htm  
 
-Book: Learning R
+Books: 
 
-A youtuber
+  - Learning R
+  
+  - More advanced: [Advanced R](https://adv-r.hadley.nz/index.html)
 
 
 
 ## R data analysis and visualization
 
-https://r4ds.had.co.nz/transform.html   (R for data science)
+A book: [R for data science](https://r4ds.had.co.nz/)
 
-David Robinson
+A YouTube channel: [David Robinson](https://www.youtube.com/channel/UCeiiqmVK07qhY-wvg3IZiZQ)
 

@@ -34,7 +34,7 @@ A great tool for data analysis, modeling, and visualization!
 
 <!---this is an html comment that works in Markdown --->
 
-Learning a new language is cool! But learning the basic stuff of a language can sometimes be just **a little bit** boring (Oops). While typing `print("Hello World")` or some small basic chunks, we probably think: why am I learning this thing? where am I in the big R knowledge field? when can I do fancy things?     
+Learning a new language is cool! But learning the basic stuff of a language can sometimes be just **a little bit** dry (Oops). While typing `print("Hello World")` or some small basic chunks, we probably think: why am I learning this thing? where am I in the big R knowledge field? when can I do fancy things?     
 
 In this tutorial, I will try to give you a big picture of R. 
 
