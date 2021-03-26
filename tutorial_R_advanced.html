@@ -11,7 +11,7 @@
 
 
 
-<title>Advanced R Tutorial</title>
+<title>Supplement 1: Tidyverse Workflow</title>
 
 <script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -35,8 +35,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -344,7 +342,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Advanced R Tutorial</h1>
+<h1 class="title toc-ignore">Supplement 1: Tidyverse Workflow</h1>
 
 </div>
 
@@ -353,429 +351,397 @@ div.tocify {
 <p>Author: Henri Chung, Jia Liu</p>
 <p>Date: 03/27/2021</p>
 <hr />
+<div id="packages-and-the-tidyverse." class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Packages and The Tidyverse.</h1>
+<p>In the first workshop, we focused on basic R functions that come natively with R. Although these functions are relatively simple, they can be combined and re-arranged in many different <em>functions</em> to perform a wide variety of analyses. However, knowing how and when to combine these functions can be difficult, and the resulting code can become difficult to understand and use. To make it easier to reuse and share R code, these functions are commonly written into <em>packages</em> and uploaded to the <strong>Comprehensive R Archive Network</strong> or CRAN. CRAN hosts a wide variety of specialized packages with specific functions for different analyses; time series, spatial, microbiome, sequence, etc.</p>
+<p>Packages from CRAN can be downloaded and used as follows:</p>
+<p>The <code>library()</code> function tells R to immediately make available any functions from the package for use. If you did not use <code>library()</code>, you would have to specify which package a command came from before using it. This is necessary to avoid situations where to packages have created functions with the same name. While loading the necessary packages prior to perform an analysis is relatively commonplace, relying on too many packages may lead to cases where you accidentally use a function from a different package than you intended.</p>
+<pre class="r"><code>#run intersect from the dplyr package without first loading it.
+across()
+#tell R where the intersect function comes from with ::
+dplyr::across()
+#load the dplyr package first, and then use intersect
+library(dplyr)
+across()
+
+#compare the function of base::intersect and dplyr::intersect
+?intersect()</code></pre>
+<p>Today, we’re going to be looking at a collection of packages known as the <strong>tidyverse</strong>. The tidyverse is a collection of “highly opinionated” packages for data manipulation and analysis in R. The tidyverse relies on a set of “tidy” data principles, which are rules for the way that data should be formatted and organized prior to analysis. This usually requires users to reformat their data into a “tidy” format as a necessary step before performing the analysis. If you agree with the tidy principles, following these steps may be an obvious and necessary step. Although there is a sizable group of R users that think these requirements are tedious. Regardless of who is right, the tidyverse is one of the most commonly used packages in R and many R users have come to rely on their functions.</p>
+<p>In order for data to be tidy, it must be:</p>
+<ul>
+<li>Each variable must have its own column.</li>
+<li>Each observation must have its own row.</li>
+<li>Each value must have its own cell.</li>
+</ul>
 <p><br></p>
-<div id="import-data-to-r" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Import data to R</h1>
-<p>In practice, our data may often look like this:</p>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-mpg
-</th>
-<th style="text-align:right;">
-cyl
-</th>
-<th style="text-align:right;">
-disp
-</th>
-<th style="text-align:right;">
-hp
-</th>
-<th style="text-align:right;">
-drat
-</th>
-<th style="text-align:right;">
-wt
-</th>
-<th style="text-align:right;">
-qsec
-</th>
-<th style="text-align:right;">
-vs
-</th>
-<th style="text-align:right;">
-am
-</th>
-<th style="text-align:right;">
-gear
-</th>
-<th style="text-align:right;">
-carb
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Mazda RX4
-</td>
-<td style="text-align:right;">
-21.0
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-160
-</td>
-<td style="text-align:right;">
-110
-</td>
-<td style="text-align:right;">
-3.90
-</td>
-<td style="text-align:right;">
-2.620
-</td>
-<td style="text-align:right;">
-16.46
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Mazda RX4 Wag
-</td>
-<td style="text-align:right;">
-21.0
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-160
-</td>
-<td style="text-align:right;">
-110
-</td>
-<td style="text-align:right;">
-3.90
-</td>
-<td style="text-align:right;">
-2.875
-</td>
-<td style="text-align:right;">
-17.02
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Datsun 710
-</td>
-<td style="text-align:right;">
-22.8
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-108
-</td>
-<td style="text-align:right;">
-93
-</td>
-<td style="text-align:right;">
-3.85
-</td>
-<td style="text-align:right;">
-2.320
-</td>
-<td style="text-align:right;">
-18.61
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Hornet 4 Drive
-</td>
-<td style="text-align:right;">
-21.4
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-258
-</td>
-<td style="text-align:right;">
-110
-</td>
-<td style="text-align:right;">
-3.08
-</td>
-<td style="text-align:right;">
-3.215
-</td>
-<td style="text-align:right;">
-19.44
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Hornet Sportabout
-</td>
-<td style="text-align:right;">
-18.7
-</td>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-360
-</td>
-<td style="text-align:right;">
-175
-</td>
-<td style="text-align:right;">
-3.15
-</td>
-<td style="text-align:right;">
-3.440
-</td>
-<td style="text-align:right;">
-17.02
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-</tbody>
-</table>
-<p>Before talking about how to access values in such dataframes, let’s first see how we can import a dataset into R:</p>
-<pre class="r"><code>?read.table()
-ghg &lt;- read.table(&quot;/Users/liujia/Desktop/europ_agriculture_GHG.csv&quot;, header = TRUE, sep = &quot;,&quot;)</code></pre>
-<pre class="r"><code># open the dataset in R
-View(ghg)</code></pre>
-<p>This is a dataset of greenhouse emission from agricultural area of European countries during Year <span class="math inline">\(1990\)</span>-<span class="math inline">\(2006\)</span>. The original dataset was downloaded from the <a href="https://data.europa.eu/euodp/en/data/dataset?q=air+emission&amp;vocab_catalog=http%3A%2F%2Fdata.europa.eu%2F88u%2Fcatalog%2Feuodp&amp;ext_boolean=all&amp;sort=">European Union Open Data Portal</a>. I simplified the data so that it fits our workshop better.</p>
+</div>
+<div id="import-data-to-r" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Import data to R</h1>
+<p>Let’s start by importing some data into R. We will be looking at a dataset of greenhouse emission from agricultural area of European countries during Year <span class="math inline">\(1990\)</span>-<span class="math inline">\(2006\)</span>. The original dataset was downloaded from the <a href="https://data.europa.eu/euodp/en/data/dataset?q=air+emission&amp;vocab_catalog=http%3A%2F%2Fdata.europa.eu%2F88u%2Fcatalog%2Feuodp&amp;ext_boolean=all&amp;sort=">European Union Open Data Portal</a>. I have already reorganized this data into a tidy format.</p>
+<p>Before talking about how to access values in such dataframes, let’s first see how we can import a dataset into R: We will use the <code>utils::read.table</code> function.</p>
+<pre class="r"><code>#read in the greenhouse gas data.
+ghg &lt;- utils::read.table(&quot;data/europ_agriculture_GHG.csv&quot;, header = TRUE, sep = &quot;,&quot;)
+
+#read.csv
+ghg &lt;- utils::read.csv(&quot;data/europ_agriculture_GHG.csv&quot;, header = TRUE)
+
+#read.tsv
+#ghg &lt;- utils::read.table(&quot;data/europ_agriculture_GHG.csv&quot;, header = TRUE, sep = &quot;\t&quot;)
+#ghg &lt;- utils::read.tsv(&quot;data/europ_agriculture_GHG.csv&quot;, header = TRUE)</code></pre>
 <p><br></p>
 <p>Let’s take a quick look at the data:</p>
-<pre class="r"><code># return the first parts of the object which is dataframe &quot;ghg&quot; here
+<pre class="r"><code># return the first 6 rows of the object which is dataframe &quot;ghg&quot; here
 head(ghg)</code></pre>
-<pre><code>##   Country_code Country Sector_code      Sector Pollutant Year    Value
-## 1           AT Austria           4 Agriculture       CH4 1990 230015.5
-## 2           AT Austria           4 Agriculture       CH4 1991 226798.0
-## 3           AT Austria           4 Agriculture       CH4 1992 218327.0
-## 4           AT Austria           4 Agriculture       CH4 1993 218808.7
-## 5           AT Austria           4 Agriculture       CH4 1994 219121.4
-## 6           AT Austria           4 Agriculture       CH4 1995 220144.6
-##   Units
-## 1    Mg
-## 2    Mg
-## 3    Mg
-## 4    Mg
-## 5    Mg
-## 6    Mg</code></pre>
-<pre class="r"><code># return the last parts
+<pre><code>##   Country_code Country Sector_code      Sector Pollutant Year    Value Units
+## 1           AT Austria           4 Agriculture       CH4 1990 230015.5    Mg
+## 2           AT Austria           4 Agriculture       CH4 1991 226798.0    Mg
+## 3           AT Austria           4 Agriculture       CH4 1992 218327.0    Mg
+## 4           AT Austria           4 Agriculture       CH4 1993 218808.7    Mg
+## 5           AT Austria           4 Agriculture       CH4 1994 219121.4    Mg
+## 6           AT Austria           4 Agriculture       CH4 1995 220144.6    Mg</code></pre>
+<pre class="r"><code># return the last 6 rows.
 tail(ghg)</code></pre>
-<pre><code>##      Country_code Country Sector_code      Sector Pollutant Year
-## 2171           TR  Turkey           4 Agriculture       N2O 2001
-## 2172           TR  Turkey           4 Agriculture       N2O 2002
-## 2173           TR  Turkey           4 Agriculture       N2O 2003
-## 2174           TR  Turkey           4 Agriculture       N2O 2004
-## 2175           TR  Turkey           4 Agriculture       N2O 2005
-## 2176           TR  Turkey           4 Agriculture       N2O 2006
-##         Value Units
-## 2171 424.0000    Mg
-## 2172 444.0000    Mg
-## 2173 438.0000    Mg
-## 2174 484.0000    Mg
-## 2175 510.2228    Mg
-## 2176 510.2228    Mg</code></pre>
+<pre><code>##      Country_code Country Sector_code      Sector Pollutant Year    Value Units
+## 2171           TR  Turkey           4 Agriculture       N2O 2001 424.0000    Mg
+## 2172           TR  Turkey           4 Agriculture       N2O 2002 444.0000    Mg
+## 2173           TR  Turkey           4 Agriculture       N2O 2003 438.0000    Mg
+## 2174           TR  Turkey           4 Agriculture       N2O 2004 484.0000    Mg
+## 2175           TR  Turkey           4 Agriculture       N2O 2005 510.2228    Mg
+## 2176           TR  Turkey           4 Agriculture       N2O 2006 510.2228    Mg</code></pre>
+<pre class="r"><code># return the dimensions
+dim(ghg)</code></pre>
+<pre><code>## [1] 2176    8</code></pre>
 <pre class="r"><code># return the number of rows
 nrow(ghg)</code></pre>
 <pre><code>## [1] 2176</code></pre>
 <pre class="r"><code># return the number of columns
 ncol(ghg)</code></pre>
 <pre><code>## [1] 8</code></pre>
-<pre class="r"><code># return the dimensions
-dim(ghg)</code></pre>
-<pre><code>## [1] 2176    8</code></pre>
+<pre class="r"><code>#View the ghg table as a separate window
+#View()</code></pre>
 <blockquote>
 <p>Notice that the datasets you work with in practical may not be clean, for example, there maybe missing values. <a href="https://uc-r.github.io/missing_values">Here</a> is a link that talks about how to deal with missing values in R. You may find more solutions or suggestions online.</p>
 </blockquote>
 <p><br></p>
 </div>
-<div id="data-wrangling-with-tidyverse" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Data wrangling with <code>tidyverse</code></h1>
+<div id="data-wrangling-with-tidyverse" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Data wrangling with <code>tidyverse</code></h1>
 <p><br></p>
-<p>In the last Exercise, you applied one function <code>sort</code> to a dataframe. Sometimes, you may need to use multiple functions, say 10, to a dataframe before you get the final set that you like. Through this long process, you either store the output of each function to a variable and use it as an input of the next function, or use some function commands with data as the argument of the next function. Either way, it can be messy and easy to lose control of.</p>
-<p>In <code>dplyr</code> package, there is a pipe operator <code>%&gt;%</code>, which allows you to transfer the data or output of the previous function to be as the default input data of the next function:</p>
-<pre class="r"><code>df_name %&gt;% 
-  function1( ... arguments)  %&gt;% 
-  function2( ... arguments) %&gt;% 
-  function3( ... arguments)</code></pre>
-<p>There are some very useful <code>dplyr</code> functions that can help us work with data. We will learn about some of them today.</p>
+<p>The first tidyverse package we’ll look at is <code>dplyr</code> (pronounced “d-plier”), which provides basic functions for data manipulation. These functions can be categorized based on how they operate on a table.</p>
+<ul>
+<li>Rows
+<ul>
+<li><code>filter()</code> chooses rows based on column values.</li>
+<li><code>slice()</code>chooses rows based on location.</li>
+<li><code>arrange</code> changes the order of the rows.</li>
+</ul></li>
+<li>Columns
+<ul>
+<li><code>select</code> changes whether or not a column is selected.</li>
+<li><code>rename</code> changes the name of the columns.</li>
+<li><code>mutate</code> changes the values of the columns and creates new columns.</li>
+</ul></li>
+<li>Groups of rows:
+<ul>
+<li><code>summarise</code> collapses a group into a single row.</li>
+</ul></li>
+</ul>
+<p>Lets look at each of the functions in an example.</p>
 <hr />
-<div id="select-columns-of-interest" class="section level2" number="2.1">
-<h2 number="2.1"><span class="header-section-number">2.1</span> <strong>Select</strong> columns of interest</h2>
-<p>Again with the <code>ghg</code> data:</p>
-<pre class="r"><code>head(ghg)</code></pre>
-<pre><code>##   Country_code Country Sector_code      Sector Pollutant Year    Value
-## 1           AT Austria           4 Agriculture       CH4 1990 230015.5
-## 2           AT Austria           4 Agriculture       CH4 1991 226798.0
-## 3           AT Austria           4 Agriculture       CH4 1992 218327.0
-## 4           AT Austria           4 Agriculture       CH4 1993 218808.7
-## 5           AT Austria           4 Agriculture       CH4 1994 219121.4
-## 6           AT Austria           4 Agriculture       CH4 1995 220144.6
-##   Units
-## 1    Mg
-## 2    Mg
-## 3    Mg
-## 4    Mg
-## 5    Mg
-## 6    Mg</code></pre>
-<p>We can know from the data description that all these data are from agriculture area, so the <code>Sector</code> and <code>Sector_code</code> columns are not really useful here. Also, we’ve already known that the <code>Units</code> for all the pollutant have all been unified to the same equivalance of <span class="math inline">\(CO_2\)</span>, so “Units” column doesn’t help explaining any specific information. I am not interested in “Country_code” column neither. So the columns that I am really interested are <code>Country</code>, <code>Pollutant</code>, <code>Year</code>, <code>Value</code>.</p>
-<p>To select these columns:</p>
-<pre class="r"><code>select(ghg, Country, Pollutant, Year, Value)
+<div id="filter-rows-based-on-column-values." class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> <strong>Filter</strong> rows based on column values.</h2>
+<p>The <code>filter</code> function allows us to choose specific parts of our data to look at based on the values of certain variables. We would use this function to answer questions such as; “What were the emissions after the year 2000?” or “What were the total emissions produced by the country Belgium?”.</p>
+<pre class="r"><code>#filter year &gt; 2000
+ghg_post2005 &lt;- filter(ghg, Year &gt; 2000)
 
-ghg %&gt;% 
-  select(Country, Pollutant, Year, Value) </code></pre>
-<p>We can achieve the same goal by unselect the columns of not interested:</p>
-<pre class="r"><code>ghg %&gt;% 
-  select(-c(Country_code, Sector, Sector_code, Units))</code></pre>
+#filter on country = belgium
+ghg_belgium &lt;- filter(ghg, Country == &quot;Belgium&quot;)</code></pre>
+<p>We can also combine multiple filter commands together using AND/OR expressions.</p>
+<pre class="r"><code>#AND with &amp;
+ghg_2005andbelgium &lt;- filter(ghg, Year == 2005 &amp; Country == &quot;Belgium&quot;) 
+
+#OR with |
+ghg_2005or2006 &lt;- filter(ghg, Year == 2005 | Year == 2006)</code></pre>
+<p><strong>Question: Why do we need to use <code>==</code> instead of <code>=</code>?</strong></p>
+</div>
+<div id="slice-rows-based-on-location." class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> <strong>Slice</strong> rows based on location.</h2>
+<p>The <code>slice</code> function cuts out rows of the data based on its numerical position in the table. We would use this function if we wanted to look at rows 20:40 in the dataset. Slice also comes with several helper functions to take out different arrangements of the dataset.</p>
+<pre class="r"><code>#slice out rows 20:40
+ghg_20to40 &lt;- slice(ghg, 20:40)
+
+#slice out the first 10 rows.
+ghg_first10 &lt;- slice_head(ghg, n = 10)
+
+#slice out the last 10 rows.
+ghg_last10 &lt;- slice_tail(ghg, n = 10)
+
+#take a random sample slice of 10 rows.
+ghg_sample10 &lt;- slice_sample(ghg, n = 10)</code></pre>
+<p><strong>Question: How would you use slice to take every 10th row in the dataset? (row 10, 20, 30, etc)</strong></p>
+</div>
+<div id="arrange-the-rows-into-a-specific-order." class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> <strong>Arrange</strong> the rows into a specific order.</h2>
+<p>The <code>arrange</code> function allows to move around the rows of the data into a specific order. This function is typically used when we want to sort the data based on a specific column value. For example, “Re-arrange the rows so that the highest emission values come first.” or “Re-arrange the rows first by highest emissions, then by country”.</p>
+<pre class="r"><code>#arrange by country
+ghg_bycountry &lt;- arrange(ghg, Country)
+
+#arrange by country and emission values
+ghg_bycountry_emissions &lt;- arrange(ghg, Value)
+
+#arrange by country and descending emission values
+ghg_bycountry_descemissions &lt;- arrange(ghg, desc(Value))</code></pre>
+</div>
+<div id="select-columns-by-name." class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> <strong>Select</strong> columns by name.</h2>
+<p>The <code>select</code> function is used to choose specific columns of the data based on their column name. This is useful when the data has many columns but you are only interested in specific ones. The other columns may not contain useful information or you might not want to look at the information for a specific analysis. For example, in our ghg dataset, the <code>Sector_code</code> and <code>Country_code</code> columns are not very useful because we are not familiar with their code system. If we wanted to know what sector the data was from, we could use the more descriptive <code>Sector</code> or <code>Country</code> columns.</p>
+<pre class="r"><code>#select the Country and Value column&#39;s from the data.
+ghg_country_value &lt;- select(ghg, c(&quot;Country&quot;, &quot;Value&quot;))
+
+#select every column except the Sector_code column.
+ghg_nocode &lt;- select(ghg, -c(&quot;Sector_code&quot;, &quot;Country_code&quot;))</code></pre>
 <blockquote>
 <p><a href="https://suzan.rbind.io/2018/01/dplyr-tutorial-1/#selecting-columns-the-basics">More</a> options for selecting columns.</p>
 </blockquote>
+</div>
+<div id="rename-columns-to-a-different-name." class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> <strong>Rename</strong> columns to a different name.</h2>
+<p>The <code>rename</code> function is to change the name of specific columns. One common usecase for the <code>rename</code> function is when you are working across multiple datasets with different names for the same column variable. For example, the column for <code>country</code> may be named <code>Country</code> in one table and <code>country</code> in another. These values in these two columns mean the same thing, but the slightly different capitalization would make it annoying to work back and forth between both. We can use the <code>rename</code> function to change the names so that they are the same.</p>
+<pre class="r"><code>#rename &quot;Country&quot; column to &quot;country&quot;, notice the syntax in the command is reversed.
+ghg_renamed &lt;- rename(ghg, country = Country)
+colnames(ghg_renamed)</code></pre>
+<pre><code>## [1] &quot;Country_code&quot; &quot;country&quot;      &quot;Sector_code&quot;  &quot;Sector&quot;       &quot;Pollutant&quot;   
+## [6] &quot;Year&quot;         &quot;Value&quot;        &quot;Units&quot;</code></pre>
+<pre class="r"><code>#We can rename multiple columns at once.
+ghg_renamed2 &lt;- rename(ghg, country = Country, year = Year)</code></pre>
+</div>
+<div id="mutate-columns-to-a-new-value." class="section level2" number="3.6">
+<h2 number="3.6"><span class="header-section-number">3.6</span> <strong>Mutate</strong> columns to a new value.</h2>
+<p>The <code>mutate</code> function can be used to change the values within a column or to create a new column based on a previous column. In our ghg dataset, the numbers in the dataset are in Mg or ‘Megagrams’, but what if we wanted our values in Kilograms (Kg) or Gigagrams? (Gg). We can either change the columns in place or create new columns to represent these values.</p>
+<pre class="r"><code>#change values and units to kilograms in place.
+ghg_kg &lt;- mutate(ghg, Value = Value*1000, Unit = &quot;kg&quot;)
+
+#create new column for value and units in gigagrams.
+ghg_gg &lt;- mutate(ghg, Value2 = Value/1000, Unit2 = &quot;Gg&quot;)</code></pre>
+<p><strong>Excerise: The <code>tolower()</code> function converts all of the characters in a string to lowercase. Use the <code>tolower()</code> and <code>mutate()</code> to change all of the values int he Country column to lowercase.</strong></p>
+</div>
+<div id="summarise-the-data-by-column-and-row-values." class="section level2" number="3.7">
+<h2 number="3.7"><span class="header-section-number">3.7</span> <strong>Summarise</strong> the data by column and row values.</h2>
+<p>The <code>Summarise</code> function allows us to calculate different summary statistics on the dataset in a single step. We use <code>summarise</code> to answer questions like; “What was the average emission value?”, What about the standard deviation, maximum, or minumum values? When combined with the <code>group_by</code> function, we can calculate these values for specific subgroups of the data in a single step.</p>
+<pre class="r"><code>ghg_summary = summarise(ghg, mean = mean(Value), sd = sd(Value), min = min(Value), max = max(Value)) 
+
+ghg_summary_country &lt;- summarise( group_by(ghg, Country), mean = mean(Value), sd = sd(Value), min = min(Value), max = max(Value))</code></pre>
+<p><strong>Exercise: How would you find the mean value for emissions per year?</strong></p>
 <p><br></p>
 </div>
-<div id="filter-rows-of-interest" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> <strong>Filter</strong> rows of interest</h2>
-<p>We may be interested in rows with specific patterns. For example, all the rows with <code>Pollutant == CO2</code>:</p>
-<pre class="r"><code>ghg %&gt;% 
-  select(Country, Pollutant, Year, Value) %&gt;% 
-  filter(Pollutant == &quot;CO2&quot;)</code></pre>
-<p>You can filter out rows with <code>Year &gt; 2000</code> by:</p>
-<pre class="r"><code>ghg %&gt;% 
-  select(Country, Pollutant, Year, Value) %&gt;% 
-  filter(Year &gt; 2000)</code></pre>
-<p>In many situations, we may need to filter out rows with multiple conditions. For example, I can filter all the rows with <code>Year &gt; 2000</code> and <code>Pollutant == "CO2"</code> by combining these two conditions with <code>&amp;</code>:</p>
-<pre class="r"><code>ghg %&gt;% 
-  select(Country, Pollutant, Year, Value) %&gt;% 
-  filter(Year &gt; 2000 &amp; Pollutant == &quot;CO2&quot;)</code></pre>
+<div id="combining-functions-and-the-pipe" class="section level2" number="3.8">
+<h2 number="3.8"><span class="header-section-number">3.8</span> Combining Functions and the Pipe <code>%&gt;%</code></h2>
+<p>Now that we understand the basic functions, we can start combining them in order to analyze our data. For example, what if we wanted to know which countries had the highest average greenhouse gas emissions? We would use a combination of the <code>group_by()</code>, <code>summarise()</code> and <code>arrange()</code> functions.</p>
+<pre class="r"><code>grouped_ghg &lt;- group_by(ghg, Country)
+summarised_ghg &lt;- summarise(grouped_ghg, mean = mean(Value))
+arranged_ghg &lt;- arrange(summarised_ghg, desc(mean))</code></pre>
+<p>The result we wanted is in arranged_ghg, but we have also created the <code>grouped_ghg</code> and <code>summarised_ghg</code> tables as part of our analysis. While these tables were necessary to get our final result, we don’t need to keep them around anymore. We can remove them from our workspace with the <code>rm</code> function, but that can get tedious if there are multiple table. Creating additional objects can also make the code look cluttered and difficult to read. To remedy this, tidyverse functions includes support for a pipe operator <code>%&gt;%</code>. The pipe operator “pipes” the output of one function into another. Using the pipe, we can rewrite the previous chunk as follows.</p>
+<pre class="r"><code>arrange_ghg2 &lt;- ghg %&gt;%
+  group_by(Country) %&gt;%
+  summarise(mean = mean(Value)) %&gt;%
+  arrange(desc(mean))</code></pre>
+<p>Using the pipe, we avoid creating unnecessary additional objects and additional lines of code, while making the code easier to read and follow.</p>
+<blockquote>
+<p>The pipe operator <code>%&gt;%</code> does not actually manipulate objects in place. The pipe actually creates an additional object behind the scenes, deleted the original, and then renames and returns the additional table. This means that while the pipe operator is useful for keeping your workspace clean, it does not help if you are limited in the number of objects you can create in your computers memory.</p>
+</blockquote>
 <p><br></p>
-<div id="exercise" class="section level3" number="2.2.1">
-<h3 number="2.2.1"><span class="header-section-number">2.2.1</span> Exercise</h3>
+<div id="exercise" class="section level3" number="3.8.1">
+<h3 number="3.8.1"><span class="header-section-number">3.8.1</span> Exercise</h3>
 <ul>
-<li><p>You will use <code>ghg</code> as your input data, and use the <code>%&gt;%</code> to pipe through functions like what we just did. So,</p>
+<li><p>Using <code>ghg</code> as your input data, complete the following operations. You do not have to use <code>%&gt;%</code>, but are encouraged to do so. The exercises will get progressively more difficult, you do not have to complete all of the questions.</p>
 <ul>
-<li>Take <code>ghg</code> data, select columns <code>Country</code>, <code>Pollutant</code>, <code>Year</code>, <code>Value</code> with <code>select</code> function</li>
-<li>Filter out rows with <code>Pollutant == N2O</code></li>
-<li>Assign the values generated from above to variable <code>N2O_ghg</code> (Hint: use <code>&lt;-</code> to assign value to variable)</li>
+<li>Take <code>ghg</code> data, select columns <code>Country</code>, <code>Pollutant</code>, <code>Year</code>, <code>Value</code> with <code>select</code> function.</li>
+<li>Filter out rows with <code>Pollutant == N2O</code>.</li>
+<li>Rename all of the columns to lowercase using the <code>rename</code> function.</li>
+<li>Assign the values for the emissions of N20 to <code>N2O_ghg</code> (Hint: use <code>&lt;-</code> to assign value to variable).</li>
+<li>Summarise the average CO2 emission values for each country using the <code>filter</code>, <code>group_by</code>, and <code>summarise</code> functions.</li>
+<li>The <code>pull</code> function extracts the values of a column of a dataframe and puts it into a vector. Using the <code>select</code>, <code>pull</code> and <code>unique</code> functions, determine how many countries are included in the dataset.</li>
+<li>Using the <code>group_by</code> and <code>summarise</code> functions to find out which greenhouse gas emission has the highest standard deviation.</li>
+<li>Using the <code>filter</code>, <code>group_by</code> and <code>summarise</code> functions to find out which countries had the highest CH4 emission for from 1995 to 2000.</li>
 </ul></li>
 </ul>
-<p>Solution:</p>
-<pre class="r"><code>N2O_ghg &lt;- ghg %&gt;% 
-  select(Country, Pollutant, Year, Value) %&gt;% 
-  filter(Pollutant == &quot;N2O&quot;)</code></pre>
 <p><br></p>
 </div>
 </div>
-<div id="summarize-and-divide-data" class="section level2" number="2.3">
-<h2 number="2.3"><span class="header-section-number">2.3</span> Summarize and Divide data</h2>
-<p>You know how to do some manupulation to your data know. Some basic maths information may help you learn more about your data. <code>summarise()</code> function summarizes some maths such as sum, average, standard deviation, maximum, minimum, and counts of the columns you defined. To apply <code>summarise</code>, you can add your new column name, and let it equals to the math function with the variable. More than one summary functions are possible.</p>
-<pre class="r"><code>N2O_ghg %&gt;% 
-  summarise(n=n(), average = mean(Value), std = sd(Value), maximum = max(Value))</code></pre>
-<pre><code>##     n  average      std  maximum
-## 1 544 30398.24 42287.36 202323.2</code></pre>
-<p>That’s a big standard deviation. It kinda makes sense since it was calculated through all the countries. A lot of times, we want to summarize the information not through all the data but by a group, say <code>Country</code> in this case. <code>group_by</code> function will divide the data with the columns/variables that you specified, and the latter functions can be applied to each divided data section.</p>
-<pre class="r"><code>N2O_ghg %&gt;% 
-  group_by(Country) %&gt;% 
-  summarise(average = mean(Value), std = sd(Value), maximum = max(Value)) </code></pre>
-<pre><code>## # A tibble: 32 x 4
-##    Country        average   std maximum
-##    &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Austria         13390.  900.  14894.
-##  2 Belgium         16981.  938.  17868.
-##  3 Bulgaria        11711. 4051.  24298.
-##  4 Cyprus           1037.  241.   1165.
-##  5 Czech Republic  18907. 4110.  30931.
-##  6 Denmark         23760. 3254.  29140.
-##  7 Estonia          3165. 1302.   6231.
-##  8 Finland         13321. 1039.  16018.
-##  9 France         187117. 8057. 202323.
-## 10 Germany        135265. 6463. 156105.
-## # … with 22 more rows</code></pre>
-<p>We just got some summaries of each European countries “N2O” gas emission throughout years. <code>arrange</code> function can be used to order a dataset based on values in one or multiple columns you defined. For example, I may want to order the dataset above based on firstly the “average”, and then “std” columns:</p>
-<pre class="r"><code>N2O_ghg %&gt;% 
-  group_by(Country) %&gt;% 
-  summarise(average = mean(Value), std = sd(Value), maximum = max(Value)) %&gt;% 
-  arrange(desc(average), std)</code></pre>
-<pre><code>## # A tibble: 32 x 4
-##    Country        average   std maximum
-##    &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-##  1 France         187117. 8057. 202323.
-##  2 Germany        135265. 6463. 156105.
-##  3 United Kingdom  94891. 6837. 104129.
-##  4 Italy           74424. 2530.  78243.
-##  5 Spain           72686. 5701.  81671.
-##  6 Poland          72536. 7934.  97904.
-##  7 Romania         45278. 9637.  73284.
-##  8 Netherlands     36396. 4219.  41262.
-##  9 Greece          28968. 1739.  32453.
-## 10 Ireland         24583. 1151.  26791.
-## # … with 22 more rows</code></pre>
-<p><code>arrange</code> will sort on ascending order in default. <code>arrange(desc(column_name))</code> will make it sort in descending order of the given column.</p>
-<p><br></p>
 </div>
+<div id="visualizing-data-with-ggplot2" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Visualizing data with <code>ggplot2</code></h1>
+<p>The dplyr functions are extremely useful for calculating summary statistics on the tables. However, sometimes relationships are more easily understood by plotting and visualiizing the data in a graph. Similar to the <code>tidy</code> principles for data organization, the authors of the tidyverse believe in a very specific <a href="https://vita.had.co.nz/papers/layered-grammar.html">philosophy</a> for creating graphs and other data visualizations. This philosophy and the functions that work with it are encompassed in the <code>ggplot2</code> package.</p>
+<p>In <code>ggplot2</code> every graph is composed of multiple different <em>mappings</em>. To create a graph, you must first start by placing down a base layer, and iteratively adding more and more mappings to it to specify the design and layout of your graph. This is analogous to our data analysis steps from before, where an analysis was built by applying multiple functions in a row with <code>%&gt;%</code>.</p>
+<p>Let’s start by building a basic graph that shows how CH4 emissions have increased over time in Austria. First, we must subset our data of interest.</p>
+<pre class="r"><code>ghg2 &lt;- ghg %&gt;%
+  filter(Country == &quot;Austria&quot; &amp; Pollutant == &quot;CH4&quot;)
+ghg2</code></pre>
+<pre><code>##    Country_code Country Sector_code      Sector Pollutant Year    Value Units
+## 1            AT Austria           4 Agriculture       CH4 1990 230015.5    Mg
+## 2            AT Austria           4 Agriculture       CH4 1991 226798.0    Mg
+## 3            AT Austria           4 Agriculture       CH4 1992 218327.0    Mg
+## 4            AT Austria           4 Agriculture       CH4 1993 218808.7    Mg
+## 5            AT Austria           4 Agriculture       CH4 1994 219121.4    Mg
+## 6            AT Austria           4 Agriculture       CH4 1995 220144.6    Mg
+## 7            AT Austria           4 Agriculture       CH4 1996 216805.6    Mg
+## 8            AT Austria           4 Agriculture       CH4 1997 213784.0    Mg
+## 9            AT Austria           4 Agriculture       CH4 1998 212922.0    Mg
+## 10           AT Austria           4 Agriculture       CH4 1999 208821.8    Mg
+## 11           AT Austria           4 Agriculture       CH4 2000 206616.4    Mg
+## 12           AT Austria           4 Agriculture       CH4 2001 204444.5    Mg
+## 13           AT Austria           4 Agriculture       CH4 2002 200088.8    Mg
+## 14           AT Austria           4 Agriculture       CH4 2003 198537.5    Mg
+## 15           AT Austria           4 Agriculture       CH4 2004 196893.0    Mg
+## 16           AT Austria           4 Agriculture       CH4 2005 195704.3    Mg
+## 17           AT Austria           4 Agriculture       CH4 2006 194993.8    Mg</code></pre>
+<p>Now that we have our data, we can start working on our plot. In the first layer of our plot, we must declare the <code>aesthetics</code> or what variables we want to map to specific parts of our base layer. In most cases, this first means specifying which aspects of our data are going to be our X-axis and our Y-axis. If we want to visualize the relationship of CH4 emissions over time, what would our X-axis and Y-axis be?</p>
+<pre class="r"><code>#we tell ggplot our intended mappings with the aesthetics function (confusing I know)
+ghg2_plot &lt;- ggplot(ghg2, aes(x = Year, y = Value))
+ghg2_plot</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-17-1.png" width="672" /> ## <code>Geoms</code></p>
+<p>Our plot now consists of a base layer! As you can see, ggplot has correctly labeled the X and Y axis with what we told it. However, the graph is missing <code>geoms</code> (short for geometric_elements), or the name of the object to draw each observation. A <code>geom</code> may be a point (scatterplot), a line (line plot), or a bar (bar plot).</p>
+<pre class="r"><code>#scatterplot
+ghg2_plot_scatter &lt;- ggplot(ghg2, aes(x = Year, y = Value)) + geom_point()
+ghg2_plot_scatter</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre class="r"><code>#lineplot
+ghg2_plot_line &lt;- ghg2_plot + geom_line()
+ghg2_plot_line</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre class="r"><code>#barplot
+ghg2_plot_bar &lt;- ghg2_plot + geom_bar(stat = &quot;identity&quot;)
+ghg2_plot_bar</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>Some <code>geoms</code> can be used to perform additional analysis on the data. The <code>geom_smooth</code> function fits a smooth line to the data following a specific formula. We can use the <code>geom_smooth</code> function to plot the slope of the line using a linear model.</p>
+<pre class="r"><code>#plot smooth line with linear model
+ghg2_plot_lm &lt;- ggplot(ghg2, aes(x = Year, y = Value)) + geom_smooth(method = &quot;lm&quot;)
+ghg2_plot_lm</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<pre class="r"><code>#plot smooth line with Local regression (loess)
+ghg2_plot_loess &lt;- ggplot(ghg2, aes(x = Year, y = Value)) + geom_smooth(method = &quot;loess&quot;)
+ghg2_plot_loess</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>#we can also stack multiple geoms on top of each other.
+ghg2_plot_combo &lt;- ggplot(ghg2, aes(x = Year, y = Value)) + geom_point() +  geom_line()
+ghg2_plot_combo</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-23-1.png" width="672" /> ##<code>Scales</code> - Color, Size, and Shape</p>
+<p>Once we have a basic plot, we can start specifying additional specifications call <code>scales</code>. <code>Scales</code> map values from the data to aesthetics such as <code>color</code>, <code>size</code>, and <code>shape</code> to customize our plot. These <code>scales</code> can be input in two ways, either as a single value or varying with a specific variable. To visualize this, we will recreate our previous graph but include additional countries in addition to Austria. We will use the <code>%in%</code> operator to specify what countries we want to include. We can separate the different countries by specificing a <code>group</code> aesthetic.</p>
+<pre class="r"><code>ghg3_plot &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country)) + geom_point() + geom_line()
+
+ghg3_plot</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Specifying a specific color.</p>
+<pre class="r"><code>ghg3_plot1 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot;&amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country)) + geom_point(color = &quot;red&quot;) + geom_line(color = &quot;red&quot;)
+
+ghg3_plot1</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-25-1.png" width="672" /> Specifying a color mapping to a variable.</p>
+<pre class="r"><code>ghg3_plot2 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country, color = Country)) + geom_point() + geom_line()
+
+ghg3_plot2</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-26-1.png" width="672" /> If we only want to color the points or the lines, We can also specify colors inside specific <code>geoms</code></p>
+<pre class="r"><code>ghg3_plot3 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country)) + geom_point(aes(color = Country)) + geom_line()
+ghg3_plot3</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre class="r"><code>ghg3_plot5 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot;&amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country)) + geom_point() + geom_line(aes(color = Country))
+ghg3_plot5</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>We can improve the readability of the plot by making the points drawn by <code>geom_point()</code> smaller.</p>
+<pre class="r"><code>ghg3_plot5 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country, color = Country)) + geom_point(size = 1) + geom_line()
+ghg3_plot5</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>Similiar to size and color, we can also specific different shapes to each of our</p>
+<pre class="r"><code>ghg3_plot4 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country, color = Country)) + geom_point(size = 1, aes(shape = Country)) 
+ghg3_plot4</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<div id="labels-and-scales" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Labels and Scales</h2>
+<p>So far, our graphs look good. But without proper labeling, it can hard for a view to understand the graph. To complete the graph, we must add proper scale labels and titles to our plot. We will add the proper labels to our graph with the <code>labs()</code> function.</p>
+<pre class="r"><code>ghg3_plot5 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country, color = Country)) + geom_point(size = 1, aes(shape = Country)) +
+  labs(title = &quot;CO2 Emissions for Several European Countries&quot;, y = &quot;CO2 Emissions (Mg)&quot;)
+ghg3_plot5</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>The <code>labs()</code> function also has arguments for <code>captions</code> and <code>subtitles</code>.</p>
+<pre class="r"><code>ghg3_plot6 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country, color = Country)) + geom_point(size = 1, aes(shape = Country)) +
+  labs(title = &quot;CO2 Emissions for Several European Countries&quot;, y = &quot;CO2 Emissions (Mg)&quot;,  subtitle = &quot;by HC&quot;, caption = &quot;Example plot 6 for BCB R workshop&quot;)
+ghg3_plot6</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 </div>
-<div id="visualizing-data-with-ggplot2" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Visualizing data with <code>ggplot2</code></h1>
+<div id="faceting-and-themes" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Faceting and Themes</h2>
+<p><code>Faceting</code> is a way to create multiple subplots of your data in a single command. This allows you to rapidly compare patterns in different parts of the data to see if they are the same or different. There are two ways to facet a graph, <code>facet_wrap</code> and <code>facet_grid</code>. <code>facet_wrap</code> will create multiple subplots and place them in order rowise, while <code>facet_grid</code> will snap the subplots to a predetermined grid. The easiest way to see the difference is with an example.</p>
+<pre class="r"><code>countries = c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)
+years = c(2000, 2001, 2002, 2003, 2004, 2005)
+
+ghg3_plot7 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% countries &amp; Year %in% years) %&gt;%
+  ggplot(aes(x = Year, y = Value, group = Country, color = Country)) + geom_point(size = 1, aes(shape = Country)) +
+  labs(title = &quot;CO2 Emissions for Several European Countries&quot;, y = &quot;CO2 Emissions (Mg)&quot;,  subtitle = &quot;by HC&quot;, caption = &quot;Example plot 6 for BCB R workshop&quot;) + 
+  facet_wrap(~Country)
+ghg3_plot7</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<pre class="r"><code>countries = c(&quot;Austria&quot;, &quot;Belgium&quot;)
+years = c(2000, 2001, 2002)
+ghg3_plot8 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% countries &amp; Year %in% years) %&gt;%
+  ggplot(aes(x = as.factor(Year), y = Value, group = Country, color = Country)) + geom_point(size = 1, aes(shape = Country)) +
+  labs(title = &quot;CO2 Emissions for Several European Countries&quot;, y = &quot;CO2 Emissions (Mg)&quot;, x = &quot;Year&quot;, subtitle = &quot;by HC&quot;, caption = &quot;Example plot 6 for BCB R workshop&quot;) +
+  facet_wrap(Year~Country)
+ghg3_plot8</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>**What effect does changing <code>x = Year</code> to <code>x = as.factor(Year)</code> have on the graph?</p>
+<pre class="r"><code>countries = c(&quot;Austria&quot;, &quot;Belgium&quot;)
+years = c(2000, 2001, 2002)
+ghg3_plot8 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% countries &amp; Year %in% years) %&gt;%
+  ggplot(aes(x = as.factor(Year), y = Value, group = Country, color = Country)) + geom_point(size = 1, aes(shape = Country)) +
+  labs(title = &quot;CO2 Emissions for Several European Countries&quot;, y = &quot;CO2 Emissions (Mg)&quot;, x = &quot;Year&quot;, subtitle = &quot;by HC&quot;, caption = &quot;Example plot 6 for BCB R workshop&quot;) +
+  facet_grid(Year~Country)
+ghg3_plot8</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-35-1.png" width="672" /> Lastly, we can change the look and feel of our plots using <code>themes</code>. <code>Themes</code> apply a bunch of specific plot specifications at once to create a single overall “look” for your graph. This means that if you wanted, you could recreate a <code>theme</code> on your own by specifying each individual part of your graph, but often it is easier to use a pre-written theme to create a single look. There are many themes available in ggplot, and some artistic R users create their own themes and upload them as packages for others to use. Below, we look at the effect of a couple included themes in R.</p>
+<p>Black and White</p>
+<pre class="r"><code>countries = c(&quot;Austria&quot;, &quot;Belgium&quot;, &quot;Cyprus&quot;, &quot;Denmark&quot;, &quot;Estonia&quot;, &quot;Finland&quot;)
+years = c(2000, 2001, 2002, 2003, 2004)
+ghg3_plot9 &lt;- ghg %&gt;%
+  filter(Pollutant == &quot;CH4&quot; &amp; Country %in% countries &amp; Year %in% years) %&gt;%
+  ggplot(aes(x = as.factor(Year), y = Value, group = Country, color = Country)) + geom_point(size = 1, aes(shape = Country)) +
+  labs(title = &quot;CO2 Emissions for Several European Countries&quot;, y = &quot;CO2 Emissions (Mg)&quot;, x = &quot;Year&quot;, subtitle = &quot;by HC&quot;, caption = &quot;Example plot 6 for BCB R workshop&quot;) +
+  facet_wrap(~Country)
+
+ghg3_plot9 + theme_bw()</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-36-1.png" width="672" /> Minimal</p>
+<pre class="r"><code>ghg3_plot9 + theme_minimal()</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-37-1.png" width="672" /> Classic</p>
+<pre class="r"><code>ghg3_plot9 + theme_classic()</code></pre>
+<p><img src="tutorial_R_advanced_files/figure-html/unnamed-chunk-38-1.png" width="672" /> ## Exercise</p>
+<p>This <a href="http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html">link</a> contains a list of many of the possible plots you can make with ggplot. Using the link and the <code>ghg</code> data, make a plot that answers a question about the data. Here are some examples:</p>
 <ul>
-<li><p>syntax of ggplot2</p></li>
-<li><p>plot the <code>ghg</code> data with ggplot2</p></li>
+<li>Which countries have the highest CO2 emissions in 2002?</li>
+<li>Is the emissions for the <code>GWP</code> pollutant increasing or decreasing over time?</li>
+<li>What year had the highest <code>CO2</code> emissions?</li>
+<li>Visualize the average level of each pollutant produced by each country.</li>
+<li>For each pollutant, find the country and year in which the emissions were highest.</li>
 </ul>
-<div id="exercise-1" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Exercise</h2>
-<p><br></p>
 </div>
 </div>
 
