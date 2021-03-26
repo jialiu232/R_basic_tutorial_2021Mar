@@ -600,22 +600,36 @@ View(ghg)</code></pre>
 <p>Let’s take a quick look at the data:</p>
 <pre class="r"><code># return the first parts of the object which is dataframe &quot;ghg&quot; here
 head(ghg)</code></pre>
-<pre><code>##   Country_code Country Sector_code      Sector Pollutant Year    Value Units
-## 1           AT Austria           4 Agriculture       CH4 1990 230015.5    Mg
-## 2           AT Austria           4 Agriculture       CH4 1991 226798.0    Mg
-## 3           AT Austria           4 Agriculture       CH4 1992 218327.0    Mg
-## 4           AT Austria           4 Agriculture       CH4 1993 218808.7    Mg
-## 5           AT Austria           4 Agriculture       CH4 1994 219121.4    Mg
-## 6           AT Austria           4 Agriculture       CH4 1995 220144.6    Mg</code></pre>
+<pre><code>##   Country_code Country Sector_code      Sector Pollutant Year    Value
+## 1           AT Austria           4 Agriculture       CH4 1990 230015.5
+## 2           AT Austria           4 Agriculture       CH4 1991 226798.0
+## 3           AT Austria           4 Agriculture       CH4 1992 218327.0
+## 4           AT Austria           4 Agriculture       CH4 1993 218808.7
+## 5           AT Austria           4 Agriculture       CH4 1994 219121.4
+## 6           AT Austria           4 Agriculture       CH4 1995 220144.6
+##   Units
+## 1    Mg
+## 2    Mg
+## 3    Mg
+## 4    Mg
+## 5    Mg
+## 6    Mg</code></pre>
 <pre class="r"><code># return the last parts
 tail(ghg)</code></pre>
-<pre><code>##      Country_code Country Sector_code      Sector Pollutant Year    Value Units
-## 2171           TR  Turkey           4 Agriculture       N2O 2001 424.0000    Mg
-## 2172           TR  Turkey           4 Agriculture       N2O 2002 444.0000    Mg
-## 2173           TR  Turkey           4 Agriculture       N2O 2003 438.0000    Mg
-## 2174           TR  Turkey           4 Agriculture       N2O 2004 484.0000    Mg
-## 2175           TR  Turkey           4 Agriculture       N2O 2005 510.2228    Mg
-## 2176           TR  Turkey           4 Agriculture       N2O 2006 510.2228    Mg</code></pre>
+<pre><code>##      Country_code Country Sector_code      Sector Pollutant Year
+## 2171           TR  Turkey           4 Agriculture       N2O 2001
+## 2172           TR  Turkey           4 Agriculture       N2O 2002
+## 2173           TR  Turkey           4 Agriculture       N2O 2003
+## 2174           TR  Turkey           4 Agriculture       N2O 2004
+## 2175           TR  Turkey           4 Agriculture       N2O 2005
+## 2176           TR  Turkey           4 Agriculture       N2O 2006
+##         Value Units
+## 2171 424.0000    Mg
+## 2172 444.0000    Mg
+## 2173 438.0000    Mg
+## 2174 484.0000    Mg
+## 2175 510.2228    Mg
+## 2176 510.2228    Mg</code></pre>
 <pre class="r"><code># return the number of rows
 nrow(ghg)</code></pre>
 <pre><code>## [1] 2176</code></pre>
@@ -645,13 +659,20 @@ dim(ghg)</code></pre>
 <h2 number="2.1"><span class="header-section-number">2.1</span> <strong>Select</strong> columns of interest</h2>
 <p>Again with the <code>ghg</code> data:</p>
 <pre class="r"><code>head(ghg)</code></pre>
-<pre><code>##   Country_code Country Sector_code      Sector Pollutant Year    Value Units
-## 1           AT Austria           4 Agriculture       CH4 1990 230015.5    Mg
-## 2           AT Austria           4 Agriculture       CH4 1991 226798.0    Mg
-## 3           AT Austria           4 Agriculture       CH4 1992 218327.0    Mg
-## 4           AT Austria           4 Agriculture       CH4 1993 218808.7    Mg
-## 5           AT Austria           4 Agriculture       CH4 1994 219121.4    Mg
-## 6           AT Austria           4 Agriculture       CH4 1995 220144.6    Mg</code></pre>
+<pre><code>##   Country_code Country Sector_code      Sector Pollutant Year    Value
+## 1           AT Austria           4 Agriculture       CH4 1990 230015.5
+## 2           AT Austria           4 Agriculture       CH4 1991 226798.0
+## 3           AT Austria           4 Agriculture       CH4 1992 218327.0
+## 4           AT Austria           4 Agriculture       CH4 1993 218808.7
+## 5           AT Austria           4 Agriculture       CH4 1994 219121.4
+## 6           AT Austria           4 Agriculture       CH4 1995 220144.6
+##   Units
+## 1    Mg
+## 2    Mg
+## 3    Mg
+## 4    Mg
+## 5    Mg
+## 6    Mg</code></pre>
 <p>We can know from the data description that all these data are from agriculture area, so the <code>Sector</code> and <code>Sector_code</code> columns are not really useful here. Also, we’ve already known that the <code>Units</code> for all the pollutant have all been unified to the same equivalance of <span class="math inline">\(CO_2\)</span>, so “Units” column doesn’t help explaining any specific information. I am not interested in “Country_code” column neither. So the columns that I am really interested are <code>Country</code>, <code>Pollutant</code>, <code>Year</code>, <code>Value</code>.</p>
 <p>To select these columns:</p>
 <pre class="r"><code>select(ghg, Country, Pollutant, Year, Value)

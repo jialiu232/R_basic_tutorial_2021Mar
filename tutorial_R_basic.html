@@ -648,7 +648,8 @@ ve / 2</code></pre>
 <pre class="r"><code>print(ch)</code></pre>
 <pre><code>## [1] &quot;hello&quot;     &quot;hi&quot;        &quot;what&#39;s up&quot; &quot;hey&quot;</code></pre>
 <pre class="r"><code>paste(ch, &quot;there&quot;)</code></pre>
-<pre><code>## [1] &quot;hello there&quot;     &quot;hi there&quot;        &quot;what&#39;s up there&quot; &quot;hey there&quot;</code></pre>
+<pre><code>## [1] &quot;hello there&quot;     &quot;hi there&quot;        &quot;what&#39;s up there&quot;
+## [4] &quot;hey there&quot;</code></pre>
 <p>Get the length of a vector using <code>length()</code> function:</p>
 <pre class="r"><code>length(ch)</code></pre>
 <pre><code>## [1] 4</code></pre>
@@ -763,19 +764,24 @@ data(&quot;mtcars&quot;)</code></pre>
 <pre><code>## [1] 11</code></pre>
 <p>or the names attribute for a data frame by:</p>
 <pre class="r"><code>names(mtcars)</code></pre>
-<pre><code>##  [1] &quot;mpg&quot;  &quot;cyl&quot;  &quot;disp&quot; &quot;hp&quot;   &quot;drat&quot; &quot;wt&quot;   &quot;qsec&quot; &quot;vs&quot;   &quot;am&quot;   &quot;gear&quot; &quot;carb&quot;</code></pre>
+<pre><code>##  [1] &quot;mpg&quot;  &quot;cyl&quot;  &quot;disp&quot; &quot;hp&quot;   &quot;drat&quot; &quot;wt&quot;   &quot;qsec&quot; &quot;vs&quot;   &quot;am&quot;  
+## [10] &quot;gear&quot; &quot;carb&quot;</code></pre>
 <pre class="r"><code>colnames(mtcars)</code></pre>
-<pre><code>##  [1] &quot;mpg&quot;  &quot;cyl&quot;  &quot;disp&quot; &quot;hp&quot;   &quot;drat&quot; &quot;wt&quot;   &quot;qsec&quot; &quot;vs&quot;   &quot;am&quot;   &quot;gear&quot; &quot;carb&quot;</code></pre>
+<pre><code>##  [1] &quot;mpg&quot;  &quot;cyl&quot;  &quot;disp&quot; &quot;hp&quot;   &quot;drat&quot; &quot;wt&quot;   &quot;qsec&quot; &quot;vs&quot;   &quot;am&quot;  
+## [10] &quot;gear&quot; &quot;carb&quot;</code></pre>
 <p>some data sets may also have row names:</p>
 <pre class="r"><code>rownames(mtcars)</code></pre>
-<pre><code>##  [1] &quot;Mazda RX4&quot;           &quot;Mazda RX4 Wag&quot;       &quot;Datsun 710&quot;          &quot;Hornet 4 Drive&quot;     
-##  [5] &quot;Hornet Sportabout&quot;   &quot;Valiant&quot;             &quot;Duster 360&quot;          &quot;Merc 240D&quot;          
-##  [9] &quot;Merc 230&quot;            &quot;Merc 280&quot;            &quot;Merc 280C&quot;           &quot;Merc 450SE&quot;         
-## [13] &quot;Merc 450SL&quot;          &quot;Merc 450SLC&quot;         &quot;Cadillac Fleetwood&quot;  &quot;Lincoln Continental&quot;
-## [17] &quot;Chrysler Imperial&quot;   &quot;Fiat 128&quot;            &quot;Honda Civic&quot;         &quot;Toyota Corolla&quot;     
-## [21] &quot;Toyota Corona&quot;       &quot;Dodge Challenger&quot;    &quot;AMC Javelin&quot;         &quot;Camaro Z28&quot;         
-## [25] &quot;Pontiac Firebird&quot;    &quot;Fiat X1-9&quot;           &quot;Porsche 914-2&quot;       &quot;Lotus Europa&quot;       
-## [29] &quot;Ford Pantera L&quot;      &quot;Ferrari Dino&quot;        &quot;Maserati Bora&quot;       &quot;Volvo 142E&quot;</code></pre>
+<pre><code>##  [1] &quot;Mazda RX4&quot;           &quot;Mazda RX4 Wag&quot;       &quot;Datsun 710&quot;         
+##  [4] &quot;Hornet 4 Drive&quot;      &quot;Hornet Sportabout&quot;   &quot;Valiant&quot;            
+##  [7] &quot;Duster 360&quot;          &quot;Merc 240D&quot;           &quot;Merc 230&quot;           
+## [10] &quot;Merc 280&quot;            &quot;Merc 280C&quot;           &quot;Merc 450SE&quot;         
+## [13] &quot;Merc 450SL&quot;          &quot;Merc 450SLC&quot;         &quot;Cadillac Fleetwood&quot; 
+## [16] &quot;Lincoln Continental&quot; &quot;Chrysler Imperial&quot;   &quot;Fiat 128&quot;           
+## [19] &quot;Honda Civic&quot;         &quot;Toyota Corolla&quot;      &quot;Toyota Corona&quot;      
+## [22] &quot;Dodge Challenger&quot;    &quot;AMC Javelin&quot;         &quot;Camaro Z28&quot;         
+## [25] &quot;Pontiac Firebird&quot;    &quot;Fiat X1-9&quot;           &quot;Porsche 914-2&quot;      
+## [28] &quot;Lotus Europa&quot;        &quot;Ford Pantera L&quot;      &quot;Ferrari Dino&quot;       
+## [31] &quot;Maserati Bora&quot;       &quot;Volvo 142E&quot;</code></pre>
 <hr />
 <p><br></p>
 </div>
@@ -910,22 +916,43 @@ sort(h, decreasing = TRUE)</code></pre>
 <div id="packages" class="section level2" number="4.2">
 <h2 number="4.2"><span class="header-section-number">4.2</span> <font color="olivedrab">Packages</font></h2>
 <p>Sometimes the functions you want to use may not be included in base R, but instead in a specific R package. That’s when we need to install the package.</p>
-<p><code>dplyr</code> is a R package that is being widely used for data manipulation.</p>
+<p><code>tidyverse</code> is a collection of R packages that is being widely used in data science area.</p>
 <pre class="r"><code># install the package
-install.packages(&quot;dplyr&quot;)
+install.packages(&quot;tidyverse&quot;)
 
 # load the add-on package
-library(dplyr)</code></pre>
+library(tidyverse)</code></pre>
+<p><br></p>
+<p>There are a lot of existing functions and packages that may be helpful for your analysis. But if your work needs some very specific functions or the same chunk of code is reused multiple times, it’s always a good idea to write your own functions or even packages!</p>
+<p><br></p>
+</div>
+<div id="create-a-function" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> <font color="olivedrab">Create a function</font></h2>
+<p>The structure of a R function is as shown below:</p>
+<pre class="r"><code>function_name &lt;- function(argument1, argument2, ... ) {
+  statements
+  return(object)
+}</code></pre>
+<p>Here we will try to define a simple function <code>f_to_c</code> that converts temperatures from Fahrenheit to Celsius:</p>
+<pre class="r"><code>f_to_c &lt;- function(temp_in_F) {
+  temp_in_C &lt;- (temp_in_F - 32) * 5 / 9
+  return(temp_in_C)
+}</code></pre>
+<p>Now we can convert temperature in Fahrenheit to Celsius with <code>f_to_c</code>. For example, temperature of 100 in Fahrenheit is:</p>
+<pre class="r"><code>f_to_c(100)</code></pre>
+<pre><code>## [1] 37.77778</code></pre>
 <hr />
 <div class="Tip2">
 <p><strong>SUMMARY</strong></p>
-<p>Most of the times, you can find help about the function/package that you are interested in from its documentation or online sources. But if your work needs some specific functions or the same chunk of code is reused multiple times, it’s always a good idea to write your own functions or even packages! See these resources of <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/">creating functions</a> and <a href="http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf">your own R package</a>.</p>
+<p>Now you probably have an idea about how to use functions, packages, and how to create a simple R function.</p>
+<p>See more resources of creating <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/">functions</a> and <a href="http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf">your own R package</a>.</p>
 </div>
 <p><br></p>
 </div>
 </div>
 <div id="summary" class="section level1" number="5">
 <h1 number="5"><span class="header-section-number">5</span> Summary</h1>
+<p><br></p>
 <p>Let’s have a look at the “big picture” again:</p>
 <p><img src="images/beads.png" style="width:100.0%" /> <br></p>
 <p>We put some beads onto several threads, and there is always more to self educate yourself about. Notice that you don’t need to wait until being familiar with all the R basics to use R in your research or data analysis. You will keep learning and building your fundamentals while using R. Hope the R advanced workshop can give you some ideas about how to use R to explore your data.</p>

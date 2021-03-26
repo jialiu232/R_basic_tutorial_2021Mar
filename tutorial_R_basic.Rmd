@@ -717,14 +717,14 @@ library(tidyverse)
 
 <br>
 
-Most of the times, you can find help about the function/package that you are interested in from its documentation or online resources. But if your work needs some specific functions or the same chunk of code is reused multiple times, it's always a good idea to write your own functions or even packages!
+There are a lot of existing functions and packages that may be helpful for your analysis. But if your work needs some very specific functions or the same chunk of code is reused multiple times, it's always a good idea to write your own functions or even packages!
 
 <br>
 
 
 ## <font color="olivedrab">Create a function</font> 
 
-The structure of a R function is shown below:
+The structure of a R function is as shown below:
 
 ```{r, error=TRUE}
 function_name <- function(argument1, argument2, ... ) {
@@ -744,7 +744,7 @@ f_to_c <- function(temp_in_F) {
 ```
 
 
-Now we can temperature in Fahrenheit to Celsius with `f_to_c`. For example, temperature of 100 in Fahrenheit is:
+Now we can convert temperature in Fahrenheit to Celsius with `f_to_c`. For example, temperature of 100 in Fahrenheit is:
 
 ```{r}
 f_to_c(100)
@@ -758,8 +758,9 @@ f_to_c(100)
 
 **SUMMARY**
 
+Now you probably have an idea about how to use functions, packages, and how to create a simple R function.       
 
-See these resources of [creating functions](https://swcarpentry.github.io/r-novice-inflammation/02-func-R/) and 
+See more resources of creating [functions](https://swcarpentry.github.io/r-novice-inflammation/02-func-R/) and 
 [your own R package](http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf).
 
 </div>
@@ -770,6 +771,8 @@ See these resources of [creating functions](https://swcarpentry.github.io/r-novi
 <br>
 
 # Summary
+
+<br>
 
 Let's have a look at the "big picture" again:
 
