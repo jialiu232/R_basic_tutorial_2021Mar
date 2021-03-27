@@ -306,6 +306,54 @@ Using the pipe, we avoid creating unnecessary additional objects and additional 
   
 <br>
 
+**Solutions**
+
+```{r}
+# 1
+ex1 <- select (ghg, Country, Pollutant, Year, Value)
+
+# 2
+ex2 <- filter (ghg, Pollutant == "N2O")
+
+# 3
+ex3 <- rename_all (ghg, tolower)
+
+# 4
+ex4 <- filter(ghg, Pollutant == "N2O")
+N2O_ghg <- ex4$Value
+
+# 5
+ex5 <- ghg %>% 
+  filter(Pollutant == "CO2") %>% 
+  group_by(Country) %>% 
+  summarise(mean = mean(Value))
+
+# 6
+ex6 <- ghg %>% 
+  select (Country) %>% 
+  pull (Country) %>% 
+  unique()
+
+# 7
+ex7 <- ghg %>% 
+  group_by(Pollutant) %>% 
+  summarise(sd = sd(Value)) %>% 
+  ungroup() %>% 
+  arrange(desc(sd))
+
+# 8
+ex8 <- ghg %>% 
+  filter(Year >= 1995 & Year <= 2000) %>% 
+  filter(Pollutant == "CH4") %>% 
+  group_by(Country) %>% 
+  summarise(mean = mean(Value)) %>% 
+  ungroup() %>% 
+  arrange(desc(mean))
+```
+
+
+<br>
+
 # Visualizing data with `ggplot2`
 
 <br>
@@ -319,6 +367,7 @@ Let's start by building a basic graph that shows how CH4 emissions have increase
 ```{r}
 ghg2 <- ghg %>%
   filter(Country == "Austria" & Pollutant == "CH4")
+
 ghg2
 ```
 
