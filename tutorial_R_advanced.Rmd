@@ -1,5 +1,5 @@
 ---
-title: "Supplement 1: Tidyverse Workflow"
+title: "Tidyverse Workflow"
 output:
   html_document:
     toc: true
@@ -19,6 +19,8 @@ Date: 03/27/2021
 ----
 
 # Packages and The Tidyverse.
+
+<br>
 
 In the first workshop, we focused on basic R functions that come natively with R. Although these functions are relatively simple, they can be combined and re-arranged in many different *functions* to perform a wide variety of analyses. However, knowing how and when to combine these functions can be difficult, and the resulting code can become difficult to understand and use. To make it easier to reuse and share R code, these functions are commonly written into *packages* and uploaded to the **Comprehensive R Archive Network** or CRAN. CRAN hosts a wide variety of specialized packages with specific functions for different analyses; time series, spatial, microbiome, sequence, etc.
 
@@ -64,6 +66,8 @@ library(tidyverse)
 <br>
 
 # Import data to R
+
+<br>
 
 Let's start by importing some data into R. We will be looking at a dataset of greenhouse emission from agricultural area of European countries during Year $1990$-$2006$. The original dataset was downloaded from the [European Union Open Data Portal](https://data.europa.eu/euodp/en/data/dataset?q=air+emission&vocab_catalog=http%3A%2F%2Fdata.europa.eu%2F88u%2Fcatalog%2Feuodp&ext_boolean=all&sort=). I have already reorganized this data into a tidy format.
 
@@ -129,6 +133,9 @@ The first tidyverse package we'll look at is `dplyr` (pronounced "d-plier"), whi
 Lets look at each of the functions in an example.
 
 ----
+
+<br>
+
 ## **Filter** rows based on column values.
 
 The ``filter`` function allows us to choose specific parts of our data to look at based on the values of certain variables. We would use this function to answer questions such as; "What were the emissions after the year 2000?" or "What were the total emissions produced by the country Belgium?".
@@ -153,6 +160,8 @@ ghg_2005or2006 <- filter(ghg, Year == 2005 | Year == 2006)
 
 **Question: Why do we need to use `==` instead of `=`?**
 
+<br>
+
 ## **Slice** rows based on location.
 
 The ``slice`` function cuts out rows of the data based on its numerical position in the table. We would use this function if we wanted to look at rows 20:40 in the dataset. Slice also comes with several helper functions to take out different arrangements of the dataset.
@@ -174,6 +183,8 @@ ghg_sample10 <- slice_sample(ghg, n = 10)
 
 **Question: How would you use slice to take every 10th row in the dataset? (row 10, 20, 30, etc)**
 
+<br>
+
 ## **Arrange** the rows into a specific order.
 
 The `arrange` function allows to move around the rows of the data into a specific order. This function is typically used when we want to sort the data based on a specific column value. For example, "Re-arrange the rows so that the highest emission values come first." or "Re-arrange the rows first by highest emissions, then by country".
@@ -189,6 +200,8 @@ ghg_bycountry_emissions <- arrange(ghg, Value)
 ghg_bycountry_descemissions <- arrange(ghg, desc(Value))
 ```
 
+<br>
+
 ## **Select** columns by name.
 
 The `select` function is used to choose specific columns of the data based on their column name. This is useful when the data has many columns but you are only interested in specific ones. The other columns may not contain useful information or you might not want to look at the information for a specific analysis. For example, in our ghg dataset, the `Sector_code` and `Country_code` columns are not very useful because we are not familiar with their code system. If we wanted to know what sector the data was from, we could use the more descriptive `Sector` or `Country` columns.
@@ -202,6 +215,8 @@ ghg_country_value <- select(ghg, c("Country", "Value"))
 ghg_nocode <- select(ghg, -c("Sector_code", "Country_code"))
 ```
 >[More](https://suzan.rbind.io/2018/01/dplyr-tutorial-1/#selecting-columns-the-basics) options for selecting columns.
+
+<br>
 
 ## **Rename** columns to a different name.
 
@@ -217,6 +232,8 @@ ghg_renamed2 <- rename(ghg, country = Country, year = Year)
 ```
 
 
+<br>
+
 ## **Mutate** columns to a new value.
 
 The ``mutate`` function can be used to change the values within a column or to create a new column based on a previous column. In our ghg dataset, the numbers in the dataset are in Mg or 'Megagrams', but what if we wanted our values in Kilograms (Kg) or Gigagrams? (Gg). We can either change the columns in place or create new columns to represent these values.
@@ -231,6 +248,8 @@ ghg_gg <- mutate(ghg, Value2 = Value/1000, Unit2 = "Gg")
 ```
 
 **Excerise: The `tolower()` function converts all of the characters in a string to lowercase. Use the `tolower()` and `mutate()` to change all of the values int he Country column to lowercase.**
+
+<br>
 
 ## **Summarise** the data by column and row values. 
 
@@ -289,6 +308,8 @@ Using the pipe, we avoid creating unnecessary additional objects and additional 
 
 # Visualizing data with `ggplot2`
 
+<br>
+
 The dplyr functions are extremely useful for calculating summary statistics on the tables. However, sometimes relationships are more easily understood by plotting and visualiizing the data in a graph. Similar to the `tidy` principles for data organization, the authors of the tidyverse believe in a very specific [philosophy](https://vita.had.co.nz/papers/layered-grammar.html) for creating graphs and other data visualizations. This philosophy and the functions that work with it are encompassed in the `ggplot2` package. 
 
 In `ggplot2` every graph is composed of multiple different *mappings*. To create a graph, you must first start by placing down a base layer, and iteratively adding more and more mappings to it to specify the design and layout of your graph. This is analogous to our data analysis steps from before, where an analysis was built by applying multiple functions in a row with `%>%`.
@@ -301,6 +322,7 @@ ghg2 <- ghg %>%
 ghg2
 ```
 
+
 Now that we have our data, we can start working on our plot. In the first layer of our plot, we must declare the `aesthetics` or what variables we want to map to specific parts of our base layer. In most cases, this first means specifying which aspects of our data are going to be our X-axis and our Y-axis. If we want to visualize the relationship of CH4 emissions over time, what would our X-axis and Y-axis be?
 
 
@@ -309,6 +331,9 @@ Now that we have our data, we can start working on our plot. In the first layer 
 ghg2_plot <- ggplot(ghg2, aes(x = Year, y = Value))
 ghg2_plot
 ```
+
+<br>
+
 ## `Geoms`
 
 Our plot now consists of a base layer! As you can see, ggplot has correctly labeled the X and Y axis with what we told it. However, the graph is missing `geoms` (short for geometric_elements), or the name of the object to draw each observation. A `geom` may be a point (scatterplot), a line (line plot), or a bar (bar plot).
@@ -350,7 +375,10 @@ ghg2_plot_combo <- ggplot(ghg2, aes(x = Year, y = Value)) + geom_point() +  geom
 ghg2_plot_combo
 
 ```
-##`Scales` -  Color, Size, and Shape
+
+<br>
+
+## `Scales` -  Color, Size, and Shape
 
 Once we have a basic plot, we can start specifying additional specifications call `scales`. `Scales` map values from the data to aesthetics such as `color`, `size`, and `shape` to customize our plot. These `scales` can be input in two ways, either as a single value or varying with a specific variable. To visualize this, we will recreate our previous graph but include additional countries in addition to Austria. We will use the `%in%` operator to specify what countries we want to include. We can separate the different countries by specificing a `group` aesthetic.
 
@@ -414,6 +442,8 @@ ghg3_plot4 <- ghg %>%
 ghg3_plot4
 ```
 
+<br>
+
 ## Labels and Scales
 
 So far, our graphs look good. But without proper labeling, it can hard for a view to understand the graph. To complete the graph, we must add proper scale labels and titles to our plot. We will add the proper labels to our graph with the `labs()` function.
@@ -435,6 +465,8 @@ ghg3_plot6 <- ghg %>%
   labs(title = "CO2 Emissions for Several European Countries", y = "CO2 Emissions (Mg)",  subtitle = "by HC", caption = "Example plot 6 for BCB R workshop")
 ghg3_plot6
 ```
+
+<br>
 
 ## Faceting and Themes
 
@@ -462,7 +494,7 @@ ghg3_plot8 <- ghg %>%
 ghg3_plot8
 ```
 
-**What effect does changing `x = Year` to `x = as.factor(Year)` have on the graph?
+**What effect does changing `x = Year` to `x = as.factor(Year)` have on the graph?**
 ```{r}
 countries = c("Austria", "Belgium")
 years = c(2000, 2001, 2002)
@@ -497,6 +529,9 @@ Classic
 ```{r}
 ghg3_plot9 + theme_classic()
 ```
+
+<br>
+
 ## Exercise
 
 This [link](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) contains a list of many of the possible plots you can make with ggplot. Using the link and the `ghg` data, make a plot that answers a question about the data. Here are some examples:
